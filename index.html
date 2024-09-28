@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#2F3136" name="theme-color">
     <meta content="drkplayzzz" property="og:title">
-    <title>@</title>
+    <title>@drkplayzzz</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="users.css">
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&f[]=array@400&display=swap" rel="stylesheet">
@@ -18,13 +18,14 @@
 
     <style>
         body {
-            font-family: Satoshi, sans-serif;
+            font-family: 'Satoshi', sans-serif;
             cursor: url('cursor.cur'), auto;
             background-color: #222222;
             overflow: hidden; /* Prevent scrollbars */
             position: relative; /* For absolute positioning */
+            color: #fff; /* Default text color */
         }
-        
+
         /* Click to Enter Overlay */
         #enterOverlay {
             position: fixed; 
@@ -40,7 +41,7 @@
             flex-direction: column; 
             z-index: 999;
         }
-        
+
         /* Animated name styles */
         .animated-name {
             color: #ffffff;
@@ -51,17 +52,106 @@
             left: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none; /* Prevent mouse events */
+            white-space: nowrap;
         }
 
-        /* Hexagon effect */
-        .hexagon {
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative; /* For positioning inner elements */
+            z-index: 1; /* Ensure it's above the overlay */
+        }
+
+        .avatar {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        .profileLayout {
+            text-align: center;
+        }
+
+        .profileBadges {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .profileBadge {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 0 5px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .profileBadge:hover {
+            transform: scale(1.1);
+        }
+
+        .profileBadge.dev {
+            color: #00ff00; /* Green for Developer */
+        }
+
+        .profileBadge.staff {
+            color: #ffcc00; /* Gold for Staff */
+        }
+
+        .profileBio {
+            color: #ffffff;
+            font-style: italic;
+            margin: 15px 0;
+        }
+
+        .presenceContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .discordInfos {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .discordAvatar {
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .discordStatus {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: rgba(255, 255, 255, 0.1);
-            opacity: 0.5;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            pointer-events: none; /* Prevent mouse events */
+            top: 0;
+            right: 0;
+            width: 20px; /* Adjust size */
+            height: 20px; /* Adjust size */
+        }
+
+        .discordUser {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .discordUserBadges {
+            display: flex;
+            margin-top: 5px;
+        }
+
+        .discordUserBadge {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -74,27 +164,19 @@
         <p style="text-align: center;">Enjoy your stay!</p>
     </div>
 
-    <div class="animated-name" id="animatedName">@drkplayzzz</div>
+    <div class="animated-name" id="animatedName"></div>
 
     <div class="container">
-        <img class="avatar" src="sq.png" style="width: 150px; height: auto;">
+        <img class="avatar" src="sq.png" alt="Avatar">
 
         <div class="profileLayout">
             <h1 class="profileUsername" style="color: #ffffff; text-shadow: 0 0 20px #ffffff;">drkplayzzz</h1>
 
             <div class="profileBadges">
-                <div style="display: flex;" class="profileBadge dev">
-                    <svg class="profileBadge" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" height="1.3em" viewBox="0 0 24 24" width="1.3em">
-                        <path d="m21.58 11.4-4.28-7.39-.35-.6h-9.91l-.35.6-4.27 7.39-.35.6.35.6 4.27 7.39.35.6h9.92l.35-.6 4.28-7.39.35-.6zm-13.07-1.03-1.63 1.63 1.63 1.63v2.73l-4.36-4.36 4.37-4.37v2.74zm3.12 6.93-2.04-.63 3.1-9.98 2.04.64zm3.86-.93v-2.73l1.63-1.64-1.63-1.63v-2.74l4.36 4.37z" style="filter: drop-shadow(0 0 1.5px #ffffff) !important;" fill="#ffffff" />
-                    </svg>
-                </div>
-                <div class="profileBadge staff">
-                    <svg class="profileBadge" xmlns="http://www.w3.org/2000/svg" style="fill: #ffffff; filter: drop-shadow(0 0 1.5px #ffffff) !important;" width="1em" height="1em" viewBox="1 1.5 22 21">
-                        <path d="m8.6 22.5l-1.9-3.2l-3.6-.8l.35-3.7L1 12l2.45-2.8l-.35-3.7l3.6-.8l1.9-3.2L12 2.95l3.4-1.45l1.9 3.2l3.6.8l-.35 3.7L23 12l-2.45 2.8l.35 3.7l-3.6.8l-1.9 3.2l-3.4-1.45l-3.4 1.45Zm2.35-6.95L16.6 9.9l-1.4-1.45l-4.25 4.25l-2.15-2.1L7.4 12l3.55 3.55Z"></path>
-                    </svg>
-                </div>
+                <div class="profileBadge dev">Dev</div>
+                <div class="profileBadge staff">Staff</div>
             </div>
-            <h3 id="typingText" style="color: #ffffff;" class="profileBio">"To fix your penis you need nitric acid."</h3>
+            <h3 id="typingText" class="profileBio">"To fix your penis you need nitric acid."</h3>
         </div>
 
         <div class="presenceWrapper">
@@ -130,6 +212,7 @@
             this.style.display = 'none';
             document.getElementById('backgroundMusic').play();
             updateDiscordStatus();
+            animateUsername();
         });
 
         async function updateDiscordStatus() {
@@ -158,33 +241,22 @@
             }
         }
 
-        const titleArray = ["@", "@z", "@ze", "@zel", "@zell", "@zellp", "@zellpo", "@zellpox", "@zellpoxi", "@zellpoxio", "@zellpoxi", "@zellpox", "@zellpo", "@zellp", "@zell", "@zel", "@ze", "@z", "@"];
+        // Typewriter effect for username
+        const username = "@drkplayzzz";
         let index = 0;
 
-        function changeTitle() {
-            document.title = titleArray[index];
-            index = (index + 1) % titleArray.length;
+        function animateUsername() {
+            const animatedNameElement = document.getElementById('animatedName');
+            animatedNameElement.innerHTML = ""; // Clear previous content
+            function type() {
+                if (index < username.length) {
+                    animatedNameElement.innerHTML += username.charAt(index);
+                    index++;
+                    setTimeout(type, 200); // Delay for each character
+                }
+            }
+            type();
         }
-
-        setInterval(changeTitle, 350);
-
-        // Interactive hexagon effect
-        document.addEventListener('mousemove', (e) => {
-            const hexagon = document.createElement('div');
-            hexagon.className = 'hexagon';
-            hexagon.style.left = `${e.clientX - 50}px`; // Center the hexagon on mouse position
-            hexagon.style.top = `${e.clientY - 50}px`; // Center the hexagon on mouse position
-            document.body.appendChild(hexagon);
-
-            setTimeout(() => {
-                hexagon.style.transform = 'scale(1.5)';
-                hexagon.style.opacity = '0';
-            }, 0);
-
-            setTimeout(() => {
-                hexagon.remove();
-            }, 300); // Adjust the duration to match the transition
-        });
     </script>
 </body>
 
