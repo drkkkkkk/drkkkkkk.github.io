@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
-    <audio id="backgroundMusic" src="music.mp3" type="audio/mp3"></audio>
+    <audio id="backgroundMusic" src="music.mp3" type="audio/mp3" loop autoplay></audio>
 
     <style>
         body {
@@ -192,39 +192,17 @@
         }
 
         /* Quote styles */
-        .quote {
+        .quoteContainer {
             position: relative;
+            height: 40px; /* Fixed height to maintain layout */
+            margin: 20px 0; /* Spacing around quotes */
+        }
+
+        .quote {
             font-size: 1.5em;
-            margin: 10px 0;
             color: #ffffff;
             text-shadow: 0 0 10px #ffffff; /* Neon glow */
-            cursor: pointer;
-            transition: transform 0.3s; /* Scale effect */
-        }
-
-        .quote:hover {
-            transform: scale(1.05); /* Scale on hover */
-        }
-
-        /* Tooltip for quotes */
-        .quote:hover::after {
-            content: "Quote by drk";
-            position: absolute;
-            bottom: 100%; /* Position above the quote */
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            padding: 5px;
-            border-radius: 5px;
-            white-space: nowrap;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            opacity: 1;
-            transition: opacity 0.3s;
-        }
-
-        .quote:hover::after {
-            opacity: 1; /* Show tooltip on hover */
+            white-space: nowrap; /* Prevent line breaks */
         }
     </style>
 </head>
@@ -250,12 +228,7 @@
                 <div class="profileBadge staff">Staff</div>
             </div>
 
-            <div class="quoteContainer">
-                <div class="quote">"To fix your penis you need nitric acid."</div>
-                <div class="quote">"Python & LUA Are the best languages."</div>
-                <div class="quote">"D-Reverses is the best tool shop"</div>
-                 <div class="quote">"discord.gg/poxio is insane."</div>
-            </div>
+            <div class="quoteContainer" id="quoteContainer"></div>
         </div>
 
         <div class="presenceWrapper">
@@ -287,13 +260,67 @@
     </div>
 
     <script>
-        document.getElementById('enterOverlay').addEventListener('click', function() {
+        // Click to enter overlay functionality
+        document.getElementById('enterOverlay').addEventListener('click', function () {
             this.style.opacity = '0';
             setTimeout(() => {
                 this.style.display = 'none';
                 document.body.style.overflow = 'auto'; // Allow scrolling after entering
+                startTypingQuotes(); // Start typing quotes after entering
             }, 500); // Matches the transition duration
         });
+
+        // Quotes for typing effect
+        const quotes = [
+            "To fix your penis you need nitric acid.",
+            "Python & LUA Are the best languages.",
+            "D-Reverses is the best tool shop.",
+            "discord.gg/poxio is insane."
+        ];
+
+        let currentQuoteIndex = 0;
+        const quoteContainer = document.getElementById('quoteContainer');
+
+        // Start typing effect
+        function startTypingQuotes() {
+            typeQuote(quotes[currentQuoteIndex]);
+        }
+
+        // Typing effect function
+        function typeQuote(quote) {
+            quoteContainer.textContent = ''; // Clear previous quote
+            let index = 0;
+
+            const typingInterval = setInterval(() => {
+                quoteContainer.textContent += quote.charAt(index);
+                index++;
+
+                if (index === quote.length) {
+                    clearInterval(typingInterval);
+                    setTimeout(() => {
+                        eraseQuote(quote); // Erase quote after typing
+                    }, 2000); // Time to display full quote
+                }
+            }, 100); // Typing speed
+        }
+
+        // Erasing effect function
+        function eraseQuote(quote) {
+            let index = quote.length;
+
+            const erasingInterval = setInterval(() => {
+                quoteContainer.textContent = quote.substring(0, index);
+                index--;
+
+                if (index < 0) {
+                    clearInterval(erasingInterval);
+                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; // Move to the next quote
+                    setTimeout(() => {
+                        typeQuote(quotes[currentQuoteIndex]); // Type next quote
+                    }, 500); // Delay before typing next quote
+                }
+            }, 50); // Erasing speed
+        }
     </script>
 </body>
 
