@@ -6,7 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#2F3136" name="theme-color">
     <meta content="drkplayzzz" property="og:title">
-    <title>drkplayzzz</title>
+    <title>@</title>
+    <script>
+        const titleArray = ["@", "@d", "@dr", "@drk", "@drkp", "@drkpl", "@drkpla", "@drkplay", "@drkplayz", "@drkplayzz", "@drkplayzzz", "@drkplayzz", "@drkplayz", "@drkplay", "@drk", "@dr", "@r", "@d", "@"];
+        let index = 0;
+
+        function changeTitle() {
+            document.title = titleArray[index];
+            index = (index + 1) % titleArray.length;
+        }
+
+        setInterval(changeTitle, 350);
+    </script>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="users.css">
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&f[]=array@400&display=swap" rel="stylesheet">
