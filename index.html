@@ -20,32 +20,33 @@
         body {
             font-family: 'Satoshi', sans-serif;
             cursor: url('cursor.cur'), auto;
-            background-color: #222222;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* Default text color */
             overflow: hidden; /* Prevent scrollbars */
             position: relative; /* For absolute positioning */
-            color: #fff; /* Default text color */
+            text-align: center;
         }
 
         /* Click to Enter Overlay */
         #enterOverlay {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0, 0, 0, 0.8); 
-            color: white; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            flex-direction: column; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             z-index: 999;
         }
 
         /* Animated name styles */
         .animated-name {
             color: #ffffff;
-            text-shadow: 0 0 20px #ffffff;
+            text-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff; /* Neon white outglow */
             font-size: 3em;
             position: absolute;
             top: 50%;
@@ -69,7 +70,8 @@
             width: 150px;
             height: auto;
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Lighter shadow for visibility */
+            margin: 20px 0;
         }
 
         .profileLayout {
@@ -83,30 +85,25 @@
         }
 
         .profileBadge {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             padding: 5px 10px;
             margin: 0 5px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Neon effect */
             transition: transform 0.3s;
+            color: #ffffff; /* Text color */
+            text-shadow: 0 0 10px #ffffff; /* Neon glow effect */
         }
 
         .profileBadge:hover {
             transform: scale(1.1);
         }
 
-        .profileBadge.dev {
-            color: #00ff00; /* Green for Developer */
-        }
-
-        .profileBadge.staff {
-            color: #ffcc00; /* Gold for Staff */
-        }
-
         .profileBio {
             color: #ffffff;
             font-style: italic;
             margin: 15px 0;
+            text-shadow: 0 0 10px #ffffff; /* Neon glow effect */
         }
 
         .presenceContainer {
@@ -119,10 +116,10 @@
         .discordInfos {
             display: flex;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1); /* Lighter background */
             padding: 10px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Neon effect */
         }
 
         .discordAvatar {
@@ -152,6 +149,7 @@
             width: 20px;
             height: 20px;
             margin-right: 5px;
+            filter: drop-shadow(0 0 10px #ffffff); /* Neon glow */
         }
     </style>
 </head>
@@ -160,8 +158,8 @@
 
     <!-- Click to Enter Overlay -->
     <div id="enterOverlay">
-        <h1 style="font-size: 4em; text-align: center;">Click to Enter</h1>
-        <p style="text-align: center;">Enjoy your stay!</p>
+        <h1 style="font-size: 4em; text-align: center; text-shadow: 0 0 20px #ffffff;">Click to Enter</h1>
+        <p style="text-align: center; text-shadow: 0 0 10px #ffffff;">Enjoy your stay!</p>
     </div>
 
     <div class="animated-name" id="animatedName"></div>
@@ -241,20 +239,22 @@
             }
         }
 
-        // Typewriter effect for username
-        const username = "@drkplayzzz";
-        let index = 0;
-
+        // Typewriter effect for username animation
         function animateUsername() {
-            const animatedNameElement = document.getElementById('animatedName');
-            animatedNameElement.innerHTML = ""; // Clear previous content
+            const username = "@drkplayzzz";
+            let index = 0;
+            const speed = 100; // Speed of typing
+            const animatedNameElement = document.getElementById("animatedName");
+            animatedNameElement.innerText = ""; // Clear initial text
+
             function type() {
                 if (index < username.length) {
-                    animatedNameElement.innerHTML += username.charAt(index);
+                    animatedNameElement.innerText += username.charAt(index);
                     index++;
-                    setTimeout(type, 200); // Delay for each character
+                    setTimeout(type, speed);
                 }
             }
+
             type();
         }
     </script>
