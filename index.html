@@ -6,18 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="#2F3136" name="theme-color">
     <meta content="drkplayzzz" property="og:title">
-    <title>@</title>
-    <script>
-        const titleArray = ["@", "@d", "@dr", "@drk", "@drkp", "@drkpl", "@drkpla", "@drkplay", "@drkplayz", "@drkplayzz", "@drkplayzzz", "@drkplayzz", "@drkplayz", "@drkplay", "@drk", "@dr", "@r", "@d", "@"];
-        let index = 0;
-
-        function changeTitle() {
-            document.title = titleArray[index];
-            index = (index + 1) % titleArray.length;
-        }
-
-        setInterval(changeTitle, 350);
-    </script>
+    <title>drkplayzzz</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="users.css">
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&f[]=array@400&display=swap" rel="stylesheet">
@@ -26,48 +15,126 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
     <audio id="backgroundMusic" src="music.mp3" type="audio/mp3"></audio>
+    
+    <!-- Particle.js Script -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <style>
+        body {
+            font-family: Satoshi, sans-serif;
+            cursor: url('cursor.cur'), auto;
+            background-color: #000000; /* Dark background */
+            color: #ffffff; /* White text for contrast */
+            overflow: hidden; /* Hide overflow */
+        }
+        
+        /* Particles container */
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Click to Enter Overlay */
+        #enterOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+            border: 2px solid #555555; /* Grey outline */
+        }
+
+        .container {
+            position: relative;
+            z-index: 1; /* Keep the container above particles */
+            text-align: center;
+        }
+
+        .profileLayout {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            border: 1px solid #555555; /* Grey outline */
+            border-radius: 10px;
+        }
+
+        .profileUsername {
+            text-shadow: 0 0 20px #ffffff;
+        }
+
+        .profileBadge {
+            width: 40px; /* Set a standard width for badges */
+            height: 40px; /* Set a standard height for badges */
+            margin: 0 5px;
+            filter: drop-shadow(0 0 1.5px #ffffff);
+        }
+
+        .profileBio {
+            color: #ffffff;
+            text-shadow: 0 0 10px #555555; /* Grey shadow for bio */
+        }
+
+        .discordUserBadge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-left: 5px;
+        }
+
+        /* Add hover effects for user badges */
+        .discordUserBadge:hover {
+            filter: brightness(1.2);
+        }
+    </style>
 </head>
 
-<body profile="" style="font-family: Satoshi, sans-serif; cursor: url('cursor.cur'), auto; background-color: #222222;">
-    
+<body>
+    <div id="particles-js"></div> <!-- Snow effect -->
+
     <!-- Click to Enter Overlay -->
-    <div id="enterOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); color: white; display: flex; justify-content: center; align-items: center; flex-direction: column; z-index: 999;">
+    <div id="enterOverlay">
         <h1 style="font-size: 3em; text-align: center;">Click to Enter</h1>
         <p style="text-align: center;">Enjoy your stay!</p>
     </div>
 
-    <video class="background" autoplay muted loop>
-        <source src="back.mp4" type="video/mp4">
-        Votre navigateur ne prend pas en charge la balise vidéo.
-    </video>
-
     <div class="container">
-        <img class="avatar" src="sq.png">
+        <img class="avatar" src="sq.png" alt="Avatar" style="border-radius: 50%; width: 100px; border: 2px solid #555555;">
 
         <div class="profileLayout">
-            <h1 class="profileUsername" style="color: #ffffff; text-shadow: 0 0 20px #ffffff;">drkplayzzz</h1>
+            <h1 class="profileUsername">drkplayzzz</h1>
 
             <div class="profileBadges">
                 <div style="display: flex;" class="profileBadge dev">
                     <svg class="profileBadge" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" height="1.3em" viewBox="0 0 24 24" width="1.3em">
-                        <path d="m21.58 11.4-4.28-7.39-.35-.6h-9.91l-.35.6-4.27 7.39-.35.6.35.6 4.27 7.39.35.6h9.92l.35-.6 4.28-7.39.35-.6zm-13.07-1.03-1.63 1.63 1.63 1.63v2.73l-4.36-4.36 4.37-4.37v2.74zm3.12 6.93-2.04-.63 3.1-9.98 2.04.64zm3.86-.93v-2.73l1.63-1.64-1.63-1.63v-2.74l4.36 4.37z" style="filter: drop-shadow(0 0 1.5px #ffffff) !important;" fill="#ffffff" />
+                        <path d="m21.58 11.4-4.28-7.39-.35-.6h-9.91l-.35.6-4.27 7.39-.35.6.35.6 4.27 7.39.35.6h9.92l.35-.6 4.28-7.39.35-.6zm-13.07-1.03-1.63 1.63 1.63 1.63v2.73l-4.36-4.36 4.37-4.37v2.74zm3.12 6.93-2.04-.63 3.1-9.98 2.04.64zm3.86-.93v-2.73l1.63-1.64-1.63-1.63v-2.74l4.36 4.37z" fill="#ffffff" />
                     </svg>
                 </div>
 
                 <div class="profileBadge staff">
-                    <svg class="profileBadge" xmlns="http://www.w3.org/2000/svg" style="fill: #ffffff; filter: drop-shadow(0 0 1.5px #ffffff) !important;" width="1em" height="1em" viewBox="1 1.5 22 21">
+                    <svg class="profileBadge" xmlns="http://www.w3.org/2000/svg" style="fill: #ffffff;" width="1em" height="1em" viewBox="1 1.5 22 21">
                         <path d="m8.6 22.5l-1.9-3.2l-3.6-.8l.35-3.7L1 12l2.45-2.8l-.35-3.7l3.6-.8l1.9-3.2L12 2.95l3.4-1.45l1.9 3.2l3.6.8l-.35 3.7L23 12l-2.45 2.8l.35 3.7l-3.6.8l-1.9 3.2l-3.4-1.45l-3.4 1.45Zm2.35-6.95L16.6 9.9l-1.4-1.45l-4.25 4.25l-2.15-2.1L7.4 12l3.55 3.55Z"></path>
                     </svg>
                 </div>
             </div>
-            <h3 id="typingText" style="color: #ffffff;" class="profileBio">"To fix your penis you need nitric acid."</h3>
+            <h3 id="typingText" class="profileBio">"To fix your penis you need nitric acid."</h3>
         </div>
 
         <div class="presenceWrapper">
             <div class="presenceContainer">
                 <div class="discordInfos">
                     <div class="discordAvatar">
-                        <img class="avatarImage" src="b97ce44d1871ecb672d304aee55611fa.png" alt="Discord Avatar">
+                        <img class="avatarImage" src="b97ce44d1871ecb672d304aee55611fa.png" alt="Discord Avatar" style="border-radius: 50%; border: 2px solid #555555;">
                         <img class="discordStatus" id="discordStatus" src="" alt="status">
                     </div>
                     <div class="discordActivity">
@@ -105,24 +172,93 @@
                 const response = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
                 const data = await response.json();
 
-                if (data.success) {
-                    // Update the Discord status image and text
-                    const discordStatus = data.data.discord_status;
-                    document.getElementById('discordStatus').src = `${discordStatus}.png`; // Use dnd.png, online.png, etc.
-                    document.getElementById('discordStatusText').innerText = data.data.activities.length 
-                        ? data.data.activities[0].details // Shows the details of the activity
-                        : 'No activity';
-
-                    // Update Discord username
-                    const discordUser = data.data.discord_user;
-                    document.getElementById('discordUsername').innerText = `${discordUser.username}#${discordUser.discriminator}`;
-                } else {
-                    console.error('Error fetching status:', response.status);
+                if (data.data) {
+                    const { activities } = data.data;
+                    const activityText = activities && activities.length > 0 ? activities[0].name : 'No activity';
+                    document.getElementById('discordStatusText').textContent = activityText;
                 }
             } catch (error) {
                 console.error('Error fetching Discord status:', error);
             }
         }
+
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff" // Snow color
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 5,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false, // Disable line linking
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "bottom",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": false
+                    },
+                    "onclick": {
+                        "enable": false
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    }
+                }
+            },
+            "retina_detect": true
+        });
     </script>
 </body>
 
