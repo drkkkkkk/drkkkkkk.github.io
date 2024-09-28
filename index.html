@@ -58,7 +58,59 @@
             margin-top: 20px;
         }
 
-        /* Additional styles omitted for brevity... */
+        /* Additional styles for badges and card flipping */
+        .profileBadges {
+            display: flex;
+            justify-content: space-between; /* Distribute space evenly */
+            margin-top: 10px; /* Add some space above the badges */
+        }
+
+        .profileBadge {
+            margin: 0 15px; /* Increase horizontal spacing between badges */
+        }
+
+        .card {
+            perspective: 1000px; /* Enables the 3D perspective */
+            margin-top: 20px; /* Add some space above the card */
+        }
+
+        .card-inner {
+            position: relative;
+            transition: transform 0.6s; /* Smooth transition for flipping */
+            transform-style: preserve-3d; /* Preserve 3D effects */
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg); /* Flips the card */
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hide the back face when flipped */
+        }
+
+        .card-back {
+            transform: rotateY(180deg); /* Hide the back face initially */
+        }
+
+        /* Hover effect */
+        .profileLayout:hover .card-inner {
+            transform: rotateY(180deg); /* Start flip on hover */
+            scale: 1.05; /* Scale up a bit on hover */
+        }
+
+        .profileLayout {
+            transition: transform 0.3s ease;
+        }
+
+        .profileLayout:hover {
+            transform: scale(1.1); /* Scale up the card slightly */
+        }
+
+        /* Additional styles for other elements */
     </style>
 </head>
 
@@ -75,15 +127,23 @@
     <div class="container">
         <img class="avatar" src="sq.png" alt="Avatar">
 
-        <div class="profileLayout">
-            <h1 class="profileUsername">drkplayzzz</h1>
+        <div class="profileLayout card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h1 class="profileUsername">drkplayzzz</h1>
 
-            <div class="profileBadges">
-                <div class="profileBadge dev">Dev</div>
-                <div class="profileBadge staff">Staff</div>
+                    <div class="profileBadges">
+                        <div class="profileBadge dev">Dev</div>
+                        <div class="profileBadge staff">Staff</div>
+                    </div>
+
+                    <div class="quoteContainer" id="quoteContainer"></div>
+                </div>
+                <div class="card-back">
+                    <h2>Additional Info</h2>
+                    <p>This is some extra information that can be shown on the back of the card.</p>
+                </div>
             </div>
-
-            <div class="quoteContainer" id="quoteContainer"></div>
         </div>
 
         <div class="presenceWrapper">
@@ -114,130 +174,272 @@
 
         // Click to enter overlay functionality
         document.getElementById('enterOverlay').addEventListener('click', function () {
-            this.style.opacity = '0';
+            this.style.opacity = 0;
             setTimeout(() => {
                 this.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Allow scrolling after entering
-                startTypingQuotes(); // Start typing quotes after entering
-                document.getElementById('backgroundMusic').play(); // Start playing music
-                updateDiscordStatus(); // Fetch Discord status after entering
-            }, 500); // Matches the transition duration
+            }, 500); // Wait for fade-out effect
         });
 
-        // Fetch and display Discord status using the Lanyard API
-        function updateDiscordStatus() {
+        // Fetch Discord status
+        function fetchDiscordStatus() {
             fetch(`https://api.lanyard.rest/v1/users/${userId}`)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    const discordData = data.data;
+                    const user = data.data.discord_user;
+                    const spotify = data.data.spotify;
 
-                    // Update username and discriminator
-                    document.getElementById('discordUsername').innerText = discordData.discord_user.username;
-                    document.getElementById('discordDiscriminator').innerText = `#${discordData.discord_user.discriminator}`;
+                    document.getElementById('discordAvatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+                    document.getElementById('discordUsername').innerText = user.username;
+                    document.getElementById('discordDiscriminator').innerText = `#${user.discriminator}`;
+                    document.getElementById('discordStatus').src = `https://discord.com/assets/${user.public_flags}.png`; // Example for status icon
 
-                    // Update status text and icon
-                    const statusText = discordData.discord_status.charAt(0).toUpperCase() + discordData.discord_status.slice(1);
-                    document.getElementById('discordStatusText').innerText = statusText;
-
-                    const statusIcon = document.getElementById('discordStatus');
-                    switch (discordData.discord_status) {
-                        case 'online':
-                            statusIcon.src = 'online.png';
-                            break;
-                        case 'idle':
-                            statusIcon.src = 'idle.png';
-                            break;
-                        case 'dnd':
-                            statusIcon.src = 'dnd.png';
-                            break;
-                        case 'invisible':
-                        case 'offline':
-                        default:
-                            statusIcon.src = 'offline.png';
-                            break;
-                    }
-
-                    // Update avatar
-                    const avatarUrl = `https://cdn.discordapp.com/avatars/${discordData.discord_user.id}/${discordData.discord_user.avatar}.png`;
-                    document.getElementById('discordAvatar').src = avatarUrl;
-
-                    // Check for Spotify information
-                    if (discordData.listening_to_spotify) {
-                        const songInfo = `${discordData.spotify.song} by ${discordData.spotify.artist} on ${discordData.spotify.album}`;
-                        document.getElementById('spotifyInfo').innerText = songInfo;
+                    if (spotify) {
+                        document.getElementById('spotifyInfo').innerText = `Listening to ${spotify.song} by ${spotify.artist}`;
                     } else {
-                        document.getElementById('spotifyInfo').innerText = "Not listening to Spotify.";
+                        document.getElementById('spotifyInfo').innerText = 'Not listening to anything';
                     }
-
-                    // Optionally, add badges based on user data
-                    // Example for adding a badge for Spotify listener
-                    const userBadges = document.getElementById('userBadges');
-                    userBadges.innerHTML = ""; // Clear previous badges
-                    if (discordData.listening_to_spotify) {
-                        userBadges.innerHTML += `<div class="discordUserBadge" data-tooltip="Listening on Spotify"><img src="spotify_badge.png" alt="Spotify Badge"></div>`;
-                    }
-                    // Add more badges as needed
                 })
-                .catch(error => {
-                    console.error('Error fetching Discord status:', error);
-                    document.getElementById('discordStatusText').innerText = "Error fetching status.";
-                });
+                .catch(err => console.error(err));
         }
 
-        // Quotes for typing effect
-        const quotes = [
-            "To fix your penis you need nitric acid.",
-            "Python & LUA Are the best languages.",
-            "D-Reverses is the best tool shop.",
-            "discord.gg/poxio is insane."
-        ];
+        fetchDiscordStatus(); // Initial fetch
+        setInterval(fetchDiscordStatus, 30000); // Fetch every 30 seconds
 
-        let currentQuoteIndex = 0;
-        const quoteContainer = document.getElementById('quoteContainer');
+        // Keep the flip effect when hovering
+        const profileLayout = document.querySelector('.profileLayout');
 
-        // Start typing effect
-        function startTypingQuotes() {
-            typeQuote(quotes[currentQuoteIndex]);
+        profileLayout.addEventListener('mouseenter', function () {
+            const cardInner = this.querySelector('.card-inner');
+            cardInner.classList.add('flipped');
+        });
+
+        profileLayout.addEventListener('mouseleave', function () {
+            const cardInner = this.querySelector('.card-inner');
+            cardInner.classList.remove('flipped');
+        });
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="#2F3136" name="theme-color">
+    <meta content="drkplayzzz" property="og:title">
+    <title>@drkplayzzz</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="users.css">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&f[]=array@400&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <audio id="backgroundMusic" src="music.mp3" type="audio/mp3" loop></audio>
+
+    <style>
+        body {
+            font-family: 'Satoshi', sans-serif;
+            cursor: url('cursor.cur'), auto;
+            background-color: #000000;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
         }
 
-        // Typing effect function
-        function typeQuote(quote) {
-            quoteContainer.textContent = ''; // Clear previous quote
-            let index = 0;
-
-            const typingInterval = setInterval(() => {
-                quoteContainer.textContent += quote.charAt(index);
-                index++;
-
-                if (index === quote.length) {
-                    clearInterval(typingInterval);
-                    setTimeout(() => {
-                        eraseQuote(quote); // Erase quote after typing
-                    }, 2000); // Time to display full quote
-                }
-            }, 100); // Typing speed
+        /* Click to Enter Overlay */
+        #enterOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+            transition: opacity 0.5s ease;
         }
 
-        // Erasing effect function
-        function eraseQuote(quote) {
-            let index = quote.length;
-
-            const erasingInterval = setInterval(() => {
-                quoteContainer.textContent = quote.substring(0, index);
-                index--;
-
-                if (index < 0) {
-                    clearInterval(erasingInterval);
-                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; // Move to the next quote
-                    setTimeout(() => {
-                        startTypingQuotes(); // Start typing the next quote
-                    }, 1000); // Delay before starting the next quote
-                }
-            }, 50); // Erasing speed
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+            z-index: 1;
         }
+
+        .presenceWrapper {
+            margin-top: 20px;
+        }
+
+        /* Additional styles for badges and card flipping */
+        .profileBadges {
+            display: flex;
+            justify-content: space-between; /* Distribute space evenly */
+            margin-top: 10px; /* Add some space above the badges */
+        }
+
+        .profileBadge {
+            margin: 0 15px; /* Increase horizontal spacing between badges */
+        }
+
+        .card {
+            perspective: 1000px; /* Enables the 3D perspective */
+            margin-top: 20px; /* Add some space above the card */
+        }
+
+        .card-inner {
+            position: relative;
+            transition: transform 0.6s; /* Smooth transition for flipping */
+            transform-style: preserve-3d; /* Preserve 3D effects */
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg); /* Flips the card */
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hide the back face when flipped */
+        }
+
+        .card-back {
+            transform: rotateY(180deg); /* Hide the back face initially */
+        }
+
+        /* Hover effect */
+        .profileLayout:hover .card-inner {
+            transform: rotateY(180deg); /* Start flip on hover */
+            scale: 1.05; /* Scale up a bit on hover */
+        }
+
+        .profileLayout {
+            transition: transform 0.3s ease;
+        }
+
+        .profileLayout:hover {
+            transform: scale(1.1); /* Scale up the card slightly */
+        }
+
+        /* Additional styles for other elements */
+    </style>
+</head>
+
+<body>
+
+    <!-- Click to Enter Overlay -->
+    <div id="enterOverlay">
+        <h1 style="font-size: 4em; text-shadow: 0 0 20px #ffffff;">Click to Enter</h1>
+        <p style="text-shadow: 0 0 10px #ffffff;">Enjoy your stay!</p>
+    </div>
+
+    <div class="animated-name" id="animatedName"></div>
+
+    <div class="container">
+        <img class="avatar" src="sq.png" alt="Avatar">
+
+        <div class="profileLayout card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h1 class="profileUsername">drkplayzzz</h1>
+
+                    <div class="profileBadges">
+                        <div class="profileBadge dev">Dev</div>
+                        <div class="profileBadge staff">Staff</div>
+                    </div>
+
+                    <div class="quoteContainer" id="quoteContainer"></div>
+                </div>
+                <div class="card-back">
+                    <h2>Additional Info</h2>
+                    <p>This is some extra information that can be shown on the back of the card.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="presenceWrapper">
+            <div class="presenceContainer">
+                <div class="discordInfos">
+                    <div class="discordAvatar">
+                        <img class="avatarImage" id="discordAvatar" src="" alt="Discord Avatar">
+                        <img class="discordStatus" id="discordStatus" src="" alt="status">
+                    </div>
+                    <div class="discordActivity">
+                        <div class="discordUser">
+                            <div class="discordUserDiv">
+                                <span id="discordUsername">drkplayzzz</span>
+                                <span id="discordDiscriminator">#6942</span>
+                                <div class="discordUserBadges" id="userBadges"></div>
+                            </div>
+                            <span id="discordStatusText" style="color: #ffffff;">No activity</span>
+                            <div id="spotifyInfo" style="color: #ffffff;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const userId = "1192557491326832681"; // Your Discord user ID
+
+        // Click to enter overlay functionality
+        document.getElementById('enterOverlay').addEventListener('click', function () {
+            this.style.opacity = 0;
+            setTimeout(() => {
+                this.style.display = 'none';
+            }, 500); // Wait for fade-out effect
+        });
+
+        // Fetch Discord status
+        function fetchDiscordStatus() {
+            fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.data.discord_user;
+                    const spotify = data.data.spotify;
+
+                    document.getElementById('discordAvatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+                    document.getElementById('discordUsername').innerText = user.username;
+                    document.getElementById('discordDiscriminator').innerText = `#${user.discriminator}`;
+                    document.getElementById('discordStatus').src = `https://discord.com/assets/${user.public_flags}.png`; // Example for status icon
+
+                    if (spotify) {
+                        document.getElementById('spotifyInfo').innerText = `Listening to ${spotify.song} by ${spotify.artist}`;
+                    } else {
+                        document.getElementById('spotifyInfo').innerText = 'Not listening to anything';
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        fetchDiscordStatus(); // Initial fetch
+        setInterval(fetchDiscordStatus, 30000); // Fetch every 30 seconds
+
+        // Keep the flip effect when hovering
+        const profileLayout = document.querySelector('.profileLayout');
+
+        profileLayout.addEventListener('mouseenter', function () {
+            const cardInner = this.querySelector('.card-inner');
+            cardInner.classList.add('flipped');
+        });
+
+        profileLayout.addEventListener('mouseleave', function () {
+            const cardInner = this.querySelector('.card-inner');
+            cardInner.classList.remove('flipped');
+        });
     </script>
 </body>
 
