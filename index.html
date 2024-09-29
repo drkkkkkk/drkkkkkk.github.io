@@ -27,6 +27,24 @@
             text-align: center;
         }
 
+        /* Language Dropdown Styles */
+        .language-dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000; /* Ensure it stays above other content */
+        }
+
+        .language-dropdown select {
+            background-color: #2F3136;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
         /* Click to Enter Overlay */
         #enterOverlay {
             position: fixed;
@@ -63,6 +81,16 @@
 </head>
 
 <body>
+
+    <!-- Language Dropdown -->
+    <div class="language-dropdown">
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="en">EN</option>
+            <option value="fr" selected>FR</option>
+            <option value="ru">RU</option>
+            <!-- Add more languages as needed -->
+        </select>
+    </div>
 
     <!-- Click to Enter Overlay -->
     <div id="enterOverlay">
@@ -111,6 +139,14 @@
 
     <script>
         const userId = "1192557491326832681"; // Your Discord user ID
+
+        // Language change function
+        function changeLanguage() {
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            // Placeholder for language change functionality
+            alert(`Language changed to: ${selectedLanguage}`);
+            // Add functionality to change text or reload content based on selected language
+        }
 
         // Click to enter overlay functionality
         document.getElementById('enterOverlay').addEventListener('click', function () {
