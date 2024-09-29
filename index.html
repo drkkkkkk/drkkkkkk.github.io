@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
-    <audio id="backgroundMusic" src="music.mp3" type="audio/mp3" loop></audio>
+    <audio id="backgroundMusic" src="" type="audio/mp3" loop></audio> <!-- Set the src to empty initially -->
 
     <style>
         body {
@@ -171,12 +171,6 @@
             }
         }
 
-        // Add an event listener to the language dropdown to log changes
-        document.getElementById('languageSelect').addEventListener('change', () => {
-            console.log('Language changed to:', document.getElementById('languageSelect').value);
-            changeLanguage();
-        });
-
         // Click to enter overlay functionality
         document.getElementById('enterOverlay').addEventListener('click', function () {
             this.style.opacity = '0';
@@ -184,7 +178,6 @@
                 this.style.display = 'none';
                 document.body.style.overflow = 'auto'; // Allow scrolling after entering
                 startTypingQuotes(); // Start typing quotes after entering
-                document.getElementById('backgroundMusic').play(); // Start playing music
                 updateDiscordStatus(); // Fetch Discord status after entering
             }, 500); // Matches the transition duration
         });
@@ -238,6 +231,11 @@
                         console.log('Current song:', discordData.spotify);
                         const songInfo = `${discordData.spotify.song} by ${discordData.spotify.artist} on ${discordData.spotify.album}`;
                         document.getElementById('spotifyInfo').innerText = songInfo;
+
+                        // Set the background music source to the Spotify track URL
+                        const trackUrl = discordData.spotify.track_url; // Assuming the API provides a direct track URL
+                        document.getElementById('backgroundMusic').src = trackUrl; // Update the audio source
+                        document.getElementById('backgroundMusic').play(); // Start playing the music
                     } else {
                         console.log('Not listening to Spotify');
                         document.getElementById('spotifyInfo').innerText = "Not listening to Spotify.";
