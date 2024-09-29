@@ -138,7 +138,7 @@
     </div>
 
     <script>
-        const userId = "1192557491326832681"; // Your Discord user ID
+        const userId = "1126993719577559170"; // Your Discord user ID
 
         // Language content
         const languageContent = {
@@ -154,7 +154,6 @@
                 enterTitle: "Нажмите, чтобы войти",
                 enterMessage: "Приятного времяпрепровождения!"
             }
-            // Add more languages as needed
         };
 
         // Language change function
@@ -165,8 +164,6 @@
             // Update the text of the elements
             document.getElementById('enterTitle').innerText = content.enterTitle;
             document.getElementById('enterMessage').innerText = content.enterMessage;
-
-            // Additional updates for other text elements can go here
         }
 
         // Click to enter overlay functionality
@@ -190,6 +187,10 @@
                 })
                 .then(data => {
                     const discordData = data.data;
+
+                    // Log the entire data response to the console
+                    console.log(data);
+                    console.log('Listening to Spotify:', discordData.listening_to_spotify);
 
                     // Update username and discriminator
                     document.getElementById('discordUsername').innerText = discordData.discord_user.username;
@@ -223,20 +224,20 @@
 
                     // Check for Spotify information
                     if (discordData.listening_to_spotify) {
+                        console.log('Current song:', discordData.spotify);
                         const songInfo = `${discordData.spotify.song} by ${discordData.spotify.artist} on ${discordData.spotify.album}`;
                         document.getElementById('spotifyInfo').innerText = songInfo;
                     } else {
+                        console.log('Not listening to Spotify');
                         document.getElementById('spotifyInfo').innerText = "Not listening to Spotify.";
                     }
 
                     // Optionally, add badges based on user data
-                    // Example for adding a badge for Spotify listener
                     const userBadges = document.getElementById('userBadges');
                     userBadges.innerHTML = ""; // Clear previous badges
                     if (discordData.listening_to_spotify) {
                         userBadges.innerHTML += `<div class="discordUserBadge" data-tooltip="Listening on Spotify"><img src="spotify_badge.png" alt="Spotify Badge"></div>`;
                     }
-                    // Add more badges as needed
                 })
                 .catch(error => {
                     console.error('Error fetching Discord status:', error);
@@ -244,58 +245,35 @@
                 });
         }
 
-        // Quotes for typing effect
-        const quotes = [
-            "To fix your penis you need nitric acid.",
-            "Python & LUA Are the best languages.",
-            "D-Reverses is the best tool shop.",
-            "discord.gg/poxio is insane."
-        ];
-
-        let currentQuoteIndex = 0;
-        const quoteContainer = document.getElementById('quoteContainer');
-
-        // Start typing effect
+        // Start typing quotes (if needed)
         function startTypingQuotes() {
+            const quotes = [
+                "Welcome to my page!",
+                "Feel free to explore!",
+                "Enjoy the music!"
+            ];
+            let currentQuoteIndex = 0;
+            const quoteContainer = document.getElementById('quoteContainer');
+
+            function typeQuote(quote) {
+                quoteContainer.innerText = ""; // Clear previous quote
+                let i = 0;
+                const typingInterval = setInterval(() => {
+                    if (i < quote.length) {
+                        quoteContainer.innerText += quote.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typingInterval);
+                        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; // Loop through quotes
+                        setTimeout(() => typeQuote(quotes[currentQuoteIndex]), 2000); // Wait before typing next quote
+                    }
+                }, 100); // Typing speed
+            }
+
             typeQuote(quotes[currentQuoteIndex]);
         }
-
-        // Typing effect function
-        function typeQuote(quote) {
-            quoteContainer.textContent = ''; // Clear previous quote
-            let index = 0;
-
-            const typingInterval = setInterval(() => {
-                quoteContainer.textContent += quote.charAt(index);
-                index++;
-
-                if (index === quote.length) {
-                    clearInterval(typingInterval);
-                    setTimeout(() => {
-                        eraseQuote(quote); // Erase quote after typing
-                    }, 2000); // Time to display full quote
-                }
-            }, 100); // Typing speed
-        }
-
-        // Erasing effect function
-        function eraseQuote(quote) {
-            let index = quote.length;
-
-            const erasingInterval = setInterval(() => {
-                quoteContainer.textContent = quote.substring(0, index);
-                index--;
-
-                if (index < 0) {
-                    clearInterval(erasingInterval);
-                    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; // Move to the next quote
-                    setTimeout(() => {
-                        startTypingQuotes(); // Start typing the next quote
-                    }, 1000); // Delay before starting the next quote
-                }
-            }, 50); // Erasing speed
-        }
     </script>
+
 </body>
 
 </html>
