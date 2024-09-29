@@ -94,8 +94,8 @@
 
     <!-- Click to Enter Overlay -->
     <div id="enterOverlay">
-        <h1 style="font-size: 4em; text-shadow: 0 0 20px #ffffff;">Click to Enter</h1>
-        <p style="text-shadow: 0 0 10px #ffffff;">Enjoy your stay!</p>
+        <h1 id="enterTitle" style="font-size: 4em; text-shadow: 0 0 20px #ffffff;">Click to Enter</h1>
+        <p id="enterMessage" style="text-shadow: 0 0 10px #ffffff;">Enjoy your stay!</p>
     </div>
 
     <div class="animated-name" id="animatedName"></div>
@@ -140,12 +140,33 @@
     <script>
         const userId = "1192557491326832681"; // Your Discord user ID
 
+        // Language content
+        const languageContent = {
+            en: {
+                enterTitle: "Click to Enter",
+                enterMessage: "Enjoy your stay!"
+            },
+            fr: {
+                enterTitle: "Cliquez pour entrer",
+                enterMessage: "Profitez de votre séjour!"
+            },
+            ru: {
+                enterTitle: "Нажмите, чтобы войти",
+                enterMessage: "Приятного времяпрепровождения!"
+            }
+            // Add more languages as needed
+        };
+
         // Language change function
         function changeLanguage() {
             const selectedLanguage = document.getElementById('languageSelect').value;
-            // Placeholder for language change functionality
-            alert(`Language changed to: ${selectedLanguage}`);
-            // Add functionality to change text or reload content based on selected language
+            const content = languageContent[selectedLanguage];
+
+            // Update the text of the elements
+            document.getElementById('enterTitle').innerText = content.enterTitle;
+            document.getElementById('enterMessage').innerText = content.enterMessage;
+
+            // Additional updates for other text elements can go here
         }
 
         // Click to enter overlay functionality
