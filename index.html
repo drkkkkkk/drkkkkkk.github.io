@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap" rel="stylesheet">
-    <audio id="backgroundMusic" src="" type="audio/mp3" loop></audio> <!-- Set the src to empty initially -->
+    <audio id="backgroundMusic" src="" type="audio/mp3" loop></audio>
 
     <style>
         body {
@@ -75,8 +75,6 @@
         .presenceWrapper {
             margin-top: 20px;
         }
-
-        /* Additional styles omitted for brevity... */
     </style>
 </head>
 
@@ -88,7 +86,6 @@
             <option value="en">EN</option>
             <option value="fr" selected>FR</option>
             <option value="ru">RU</option>
-            <!-- Add more languages as needed -->
         </select>
     </div>
 
@@ -194,7 +191,6 @@
 
                     // Log the entire data response to the console
                     console.log(data);
-                    console.log('Listening to Spotify:', discordData.listening_to_spotify);
 
                     // Update username and discriminator
                     document.getElementById('discordUsername').innerText = discordData.discord_user.username;
@@ -228,16 +224,14 @@
 
                     // Check for Spotify information
                     if (discordData.listening_to_spotify) {
-                        console.log('Current song:', discordData.spotify);
                         const songInfo = `${discordData.spotify.song} by ${discordData.spotify.artist} on ${discordData.spotify.album}`;
                         document.getElementById('spotifyInfo').innerText = songInfo;
 
-                        // Set the background music source to the Spotify track URL
-                        const trackUrl = discordData.spotify.track_url; // Assuming the API provides a direct track URL
-                        document.getElementById('backgroundMusic').src = trackUrl; // Update the audio source
-                        document.getElementById('backgroundMusic').play(); // Start playing the music
+                        // Set the background music source to the current Spotify song
+                        const backgroundMusic = document.getElementById('backgroundMusic');
+                        backgroundMusic.src = discordData.spotify.track_url; // Assuming track_url gives the correct mp3 link
+                        backgroundMusic.play();
                     } else {
-                        console.log('Not listening to Spotify');
                         document.getElementById('spotifyInfo').innerText = "Not listening to Spotify.";
                     }
 
@@ -256,10 +250,9 @@
                 });
         }
 
-        // Start typing quotes (if needed)
+        // Start typing quotes
         function startTypingQuotes() {
-            // Your existing quote typing logic
-            const quotes = ["Quote 1", "Quote 2", "Quote 3"]; // Add your quotes here
+            const quotes = ["Life is what happens when you're busy making other plans.", "Get busy living or get busy dying.", "You have to be odd to be number one."];
             const quoteContainer = document.getElementById('quoteContainer');
             let index = 0;
 
