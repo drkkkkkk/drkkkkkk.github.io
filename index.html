@@ -161,10 +161,21 @@
             const selectedLanguage = document.getElementById('languageSelect').value;
             const content = languageContent[selectedLanguage];
 
-            // Update the text of the elements
-            document.getElementById('enterTitle').innerText = content.enterTitle;
-            document.getElementById('enterMessage').innerText = content.enterMessage;
+            // Check if content is found for the selected language
+            if (content) {
+                // Update the text of the elements
+                document.getElementById('enterTitle').innerText = content.enterTitle;
+                document.getElementById('enterMessage').innerText = content.enterMessage;
+            } else {
+                console.error('Language content not found for:', selectedLanguage);
+            }
         }
+
+        // Add an event listener to the language dropdown to log changes
+        document.getElementById('languageSelect').addEventListener('change', () => {
+            console.log('Language changed to:', document.getElementById('languageSelect').value);
+            changeLanguage();
+        });
 
         // Click to enter overlay functionality
         document.getElementById('enterOverlay').addEventListener('click', function () {
@@ -234,46 +245,41 @@
 
                     // Optionally, add badges based on user data
                     const userBadges = document.getElementById('userBadges');
-                    userBadges.innerHTML = ""; // Clear previous badges
-                    if (discordData.listening_to_spotify) {
-                        userBadges.innerHTML += `<div class="discordUserBadge" data-tooltip="Listening on Spotify"><img src="spotify_badge.png" alt="Spotify Badge"></div>`;
+                    userBadges.innerHTML = ''; // Clear previous badges
+                    if (discordData.discord_user.public_flags & 0x00000004) { // Staff badge
+                        userBadges.innerHTML += '<img src="staff_badge.png" alt="Staff Badge" />';
+                    }
+                    if (discordData.discord_user.public_flags & 0x00000008) { // Partner badge
+                        userBadges.innerHTML += '<img src="partner_badge.png" alt="Partner Badge" />';
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching Discord status:', error);
-                    document.getElementById('discordStatusText').innerText = "Error fetching status.";
+                    console.error('There was a problem with the fetch operation:', error);
                 });
         }
 
         // Start typing quotes (if needed)
         function startTypingQuotes() {
-            const quotes = [
-                "Welcome to my page!",
-                "Feel free to explore!",
-                "Enjoy the music!"
-            ];
-            let currentQuoteIndex = 0;
+            // Your existing quote typing logic
+            const quotes = ["Quote 1", "Quote 2", "Quote 3"]; // Add your quotes here
             const quoteContainer = document.getElementById('quoteContainer');
+            let index = 0;
 
-            function typeQuote(quote) {
-                quoteContainer.innerText = ""; // Clear previous quote
-                let i = 0;
-                const typingInterval = setInterval(() => {
-                    if (i < quote.length) {
-                        quoteContainer.innerText += quote.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(typingInterval);
-                        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; // Loop through quotes
-                        setTimeout(() => typeQuote(quotes[currentQuoteIndex]), 2000); // Wait before typing next quote
-                    }
-                }, 100); // Typing speed
+            function typeQuote() {
+                if (index < quotes.length) {
+                    quoteContainer.innerText = quotes[index];
+                    index++;
+                    setTimeout(typeQuote, 3000); // Change quote every 3 seconds
+                } else {
+                    index = 0; // Restart quotes
+                }
             }
-
-            typeQuote(quotes[currentQuoteIndex]);
+            typeQuote(); // Start typing quotes
         }
-    </script>
 
+        // Initialize background music
+        document.getElementById('backgroundMusic').volume = 0.5; // Set volume
+    </script>
 </body>
 
 </html>
