@@ -5,9 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - My App</title>
     <link rel="stylesheet" href="styles.css">
+    
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+    <script type="module">
+        // Firebase App and Auth SDKs (modular)
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
+            authDomain: "drks-debadges.firebaseapp.com",
+            projectId: "99406338166",
+            storageBucket: "drks-debadges.appspot.com",
+            messagingSenderId: "99406338166",
+            appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+    </script>
 </head>
 <body>
     <div class="container">
@@ -27,9 +45,90 @@
         <a href="#" id="forgot-password">Forgot password?</a>
     </div>
 
-    <!-- Notifications -->
     <div id="notifications"></div>
 
-    <script src="script.js"></script>
+    <!-- Custom Script -->
+    <script type="module">
+        import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+
+        // Initialize Firebase (if not already done in the first script block)
+        const auth = getAuth();
+        
+        // DOM Elements
+        const googleBtn = document.getElementById("google-login-btn");
+        const loginBtn = document.getElementById("login-btn");
+        const emailInput = document.getElementById("login-email");
+        const passwordInput = document.getElementById("login-password");
+        const forgotPassword = document.getElementById("forgot-password");
+
+        // Google Login
+        googleBtn.addEventListener("click", () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    window.location.href = 'profile.html';
+                })
+                .catch((error) => {
+                    showNotification(error.message, 'error');
+                });
+        });
+
+        // Email Login
+        loginBtn.addEventListener("click", () => {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    if (user.emailVerified) {
+                        showNotification("Login successful!", 'success');
+                        window.location.href = 'profile.html';
+                    } else {
+                        showNotification("Please verify your email first.", 'error');
+                    }
+                })
+                .catch((error) => {
+                    showNotification(error.message, 'error');
+                });
+        });
+
+        // Forgot Password
+        forgotPassword.addEventListener("click", () => {
+            const email = prompt("Please enter your email:");
+            if (!email) return;
+
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showNotification("Password reset email sent! Please check your inbox.", 'success');
+                })
+                .catch((error) => {
+                    showNotification(error.message, 'error');
+                });
+        });
+
+        // Show Notifications
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.classList.add('notification', type === 'success' ? 'show' : '');
+            notification.classList.add(type);
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button class="close-btn">&times;</button>
+            `;
+            document.body.appendChild(notification);
+
+            notification.querySelector('.close-btn').addEventListener('click', () => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            });
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
