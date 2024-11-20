@@ -12,42 +12,39 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // DOM Elements
-const loginBtn = document.getElementById("login-btn");
-const loginEmailInput = document.getElementById("login-email-input");
-const loginPasswordInput = document.getElementById("login-password-input");
-const errorMessage = document.getElementById('login-error-message');
-const successMessage = document.getElementById('login-success-message');
+const loginEmailInput = document.getElementById('login-email');
+const loginPasswordInput = document.getElementById('login-password');
+const loginBtn = document.getElementById('login-btn');
+const googleLoginBtn = document.getElementById('google-login-btn');
 
-// Login Functionality
-loginBtn.addEventListener("click", (event) => {
-  event.preventDefault(); // Prevent form submission
+// Google Login functionality
+googleLoginBtn.addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      console.log('Google User logged in:', user);
+      // Redirect to profile page after successful login
+      window.location.href = 'profile.html';
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+});
 
+// Email Login functionality
+loginBtn.addEventListener("click", () => {
   const email = loginEmailInput.value;
   const password = loginPasswordInput.value;
-
-  if (!email || !password) {
-    errorMessage.textContent = "Please fill in all fields.";
-    errorMessage.style.display = "block";
-    return;
-  }
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      if (user.emailVerified) {
-        successMessage.textContent = 'Successfully logged in!';
-        window.location.href = 'profile.html';
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-          window.location.href = 'profile.html'; // Redirect to profile page
-        }, 3000);
-      } else {
-        errorMessage.textContent = "Please verify your email first.";
-        errorMessage.style.display = "block";
-      }
+      console.log('User logged in:', user);
+      // Redirect to profile page after successful login
+      window.location.href = 'profile.html';
     })
     .catch((error) => {
-      errorMessage.textContent = error.message;
-      errorMessage.style.display = "block";
+      alert(error.message);
     });
 });
