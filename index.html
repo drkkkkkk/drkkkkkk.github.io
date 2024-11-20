@@ -3,41 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase Auth</title>
+  <title>Firebase Authentication</title>
   <link rel="stylesheet" href="styles.css">
-  
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 </head>
 <body>
-  <div id="auth-container" class="auth-container">
-    <h2 id="auth-title">Login</h2>
-    <div class="auth-methods">
-      <!-- Google Button with favicon -->
-      <button id="google-btn" class="auth-btn">
-        <img src="favicon.ico" alt="Google" class="google-icon" />
-        Log in with Google
-      </button>
-      <p id="toggle-text"><span>Don't have an account? Sign up</span></p>
 
-      <!-- Email Login/Sign Up Form -->
-      <div id="email-form">
-        <input type="email" id="email-login" placeholder="Email" required />
-        <input type="password" id="password-login" placeholder="Password" required />
-        <button id="login-btn" class="auth-btn">Login</button>
-        <button id="signup-btn" class="auth-btn" style="display:none;">Sign Up</button>
-      </div>
+  <!-- Auth Container -->
+  <div id="auth-container">
+    <h2 id="auth-title">Login</h2>
+
+    <!-- Google Button -->
+    <button id="google-btn" class="auth-btn">
+      <img src="favicon.ico" alt="Google" class="google-icon"> Log in with Google
+    </button>
+
+    <p id="toggle-text">
+      <span>Don't have an account? Sign up</span>
+    </p>
+
+    <!-- Email Login/Sign-Up Form -->
+    <div id="email-form">
+      <input type="email" id="email-input" placeholder="Email" required />
+      <input type="password" id="password-input" placeholder="Password" required />
+      <button id="login-btn" class="auth-btn">Login</button>
+      <button id="signup-btn" class="auth-btn" style="display:none;">Sign Up</button>
     </div>
   </div>
 
-  <div id="profile-container" class="profile-container" style="display:none;">
+  <!-- Profile Container -->
+  <div id="profile-container" style="display:none;">
     <h3>Welcome, <span id="google-name"></span></h3>
     <p id="user-email"></p>
     <button id="logout-btn">Log out</button>
   </div>
 
-  <!-- Popup for errors -->
+  <!-- Popup for Errors -->
   <div id="popup-container" class="popup-container" style="display:none;">
     <div class="popup">
       <p id="popup-text"></p>
