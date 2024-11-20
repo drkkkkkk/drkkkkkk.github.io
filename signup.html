@@ -9,16 +9,19 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 </head>
 <body>
-  <div id="auth-container">
+  <div class="auth-container">
     <div class="auth-box">
-      <h2>Sign Up</h2>
-      <input type="email" id="signup-email" placeholder="Email" required>
-      <input type="password" id="signup-password" placeholder="Password" required>
-      <button id="signup-btn">Sign Up</button>
-      <p>Already have an account? <a href="index.html">Sign In</a></p>
+      <h1>Create an Account</h1>
+      <input type="email" id="signup-email" placeholder="Email" class="auth-input">
+      <input type="password" id="signup-password" placeholder="Password" class="auth-input">
+      <button id="signup-btn" class="auth-btn">Sign Up</button>
+      <button id="login-link-btn" class="auth-btn">Already have an account? Log In</button>
+      <div id="google-signup-btn" class="auth-btn google-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Login" />
+        Sign up with Google
+      </div>
     </div>
   </div>
-
   <script src="signup.js"></script>
 </body>
 </html>

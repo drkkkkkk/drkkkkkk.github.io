@@ -1,39 +1,54 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-    authDomain: "drks-debadges.firebaseapp.com",
-    projectId: "99406338166",
-    storageBucket: "drks-debadges.appspot.com",
-    messagingSenderId: "99406338166",
-    appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-  };
+// DOM Elements
+const signupEmail = document.getElementById("signup-email");
+const signupPassword = document.getElementById("signup-password");
+const signupBtn = document.getElementById("signup-btn");
+const loginLinkBtn = document.getElementById("login-link-btn");
+const googleSignupBtn = document.getElementById("google-signup-btn");
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+// Show notification
+function showNotification(message) {
+  const notification = document.createElement("div");
+  notification.classList.add("notification");
+  notification.innerText = message;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    notification.classList.add("show");
+  }, 10);
+  setTimeout(() => {
+    notification.classList.remove("show");
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
 
-  // DOM Elements for Sign-Up
-  const signupBtn = document.getElementById("signup-btn");
-  const signupEmailInput = document.getElementById("signup-email");
-  const signupPasswordInput = document.getElementById("signup-password");
+// Google Sign-up
+googleSignupBtn.addEventListener("click", () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+      showNotification('Successfully signed up with Google!');
+      window.location.href = 'profile.html';
+    })
+    .catch((error) => {
+      showNotification(error.message);
+    });
+});
 
-  // Sign-Up Functionality
-  signupBtn.addEventListener("click", () => {
-    const email = signupEmailInput.value;
-    const password = signupPasswordInput.value;
+// Sign up with email and password
+signupBtn.addEventListener("click", () => {
+  const email = signupEmail.value;
+  const password = signupPassword.value;
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        user.sendEmailVerification()  // Send verification email
-          .then(() => {
-            alert('Please check your email for the verification link.');
-            window.location.href = 'index.html';  // Redirect to login
-          })
-          .catch((error) => {
-            alert(error.message);
-          });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  });
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      showNotification("Account created successfully! Please verify your email.");
+      window.location.href = 'profile.html';
+    })
+    .catch((error) => {
+      showNotification(error.message);
+    });
+});
+
+// Redirect to Login page
+loginLinkBtn.addEventListener("click", () => {
+  window.location.href = 'index.html'; // Redirect to login page
+});
