@@ -16,12 +16,8 @@ const signupBtn = document.getElementById("signup-btn");
 const signupEmailInput = document.getElementById("signup-email-input");
 const signupPasswordInput = document.getElementById("signup-password-input");
 
-const errorMessage = document.createElement('div');
-errorMessage.classList.add('error-message');
-const successMessage = document.createElement('div');
-successMessage.classList.add('success-message');
-document.body.appendChild(errorMessage);
-document.body.appendChild(successMessage);
+const errorMessage = document.getElementById('error-message');
+const successMessage = document.getElementById('success-message');
 
 // Sign-Up Functionality
 signupBtn.addEventListener("click", (event) => {
