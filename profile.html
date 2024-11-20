@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-top">
+      <img id="profile-pic" src="https://banner2.cleanpng.com/20171218/621/av2bwpcv3.webp" alt="Profile Picture">
+      <div>
+        <h2 id="welcome-message">Welcome, <span id="user-name"></span></h2>
+        <p>Your email: <span id="user-email"></span></p>
+      </div>
+    </div>
+    <button id="logout-btn">Logout</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>
