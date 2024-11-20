@@ -15,6 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const signupBtn = document.getElementById("signup-btn");
 const signupEmailInput = document.getElementById("signup-email-input");
 const signupPasswordInput = document.getElementById("signup-password-input");
+
 const errorMessage = document.createElement('div');
 errorMessage.classList.add('error-message');
 const successMessage = document.createElement('div');
@@ -24,22 +25,24 @@ document.body.appendChild(successMessage);
 
 // Sign-Up Functionality
 signupBtn.addEventListener("click", (event) => {
-  event.preventDefault();  // Prevent form submission
+  event.preventDefault(); // Prevent form submission
 
   const email = signupEmailInput.value;
   const password = signupPasswordInput.value;
 
-  // Input validation
   if (!email || !password) {
-    errorMessage.textContent = "Please fill in both email and password.";
+    errorMessage.textContent = "Please fill in all fields.";
     errorMessage.style.display = "block";
     return;
   }
 
+  // First, register the user with email and password
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      user.sendEmailVerification()  // Send verification email
+
+      // Send email verification
+      user.sendEmailVerification()
         .then(() => {
           successMessage.textContent = 'Please check your email for the verification link.';
           successMessage.style.display = 'block';
@@ -51,6 +54,7 @@ signupBtn.addEventListener("click", (event) => {
           errorMessage.textContent = error.message;
           errorMessage.style.display = 'block';
         });
+
     })
     .catch((error) => {
       errorMessage.textContent = error.message;
