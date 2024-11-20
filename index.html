@@ -6,26 +6,8 @@
     <title>Login - My App</title>
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Firebase App and Auth SDKs (modular)
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-        
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-            authDomain: "drks-debadges.firebaseapp.com",
-            projectId: "99406338166",
-            storageBucket: "drks-debadges.appspot.com",
-            messagingSenderId: "99406338166",
-            appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-    </script>
+    <!-- Firebase Initialization Script -->
+    <script type="module" src="firebase-init.js"></script>
 </head>
 <body>
     <div class="container">
@@ -45,17 +27,11 @@
         <a href="#" id="forgot-password">Forgot password?</a>
     </div>
 
-    <div id="notifications"></div>
-
     <!-- Custom Script -->
     <script type="module">
+        import { auth } from './firebase-init.js';
         import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-        import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
-        // Initialize Firebase (if not already done in the first script block)
-        const auth = getAuth();
-        
-        // DOM Elements
         const googleBtn = document.getElementById("google-login-btn");
         const loginBtn = document.getElementById("login-btn");
         const emailInput = document.getElementById("login-email");
