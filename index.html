@@ -3,87 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Login & Sign Up</title>
+  <title>Firebase Auth</title>
   <link rel="stylesheet" href="styles.css">
+  
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 </head>
 <body>
-  <div id="auth-container">
-    <div id="auth-box">
-      <h2 id="auth-title">Welcome</h2>
-      <button id="google-btn" class="auth-btn">Sign In with Google</button>
+  <div id="auth-container" class="auth-container">
+    <h2 id="auth-title">Login</h2>
+    <div class="auth-methods">
+      <button id="google-btn" class="auth-btn">Log in with Google</button>
+      <p id="toggle-text"><span>Don't have an account? Sign up</span></p>
 
-      <!-- Email/Password Login Form -->
-      <div id="email-login" class="auth-form">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button id="login-btn" class="auth-btn">Log In</button>
-        <button id="signup-btn" class="auth-btn">Sign Up</button>
-      </div>
-
-      <!-- Sign-up or Login Toggle -->
-      <div id="toggle-signup" class="toggle-text">Don't have an account? <span id="toggle-text-span">Sign Up</span></div>
-
-      <!-- Error and Success Pop-ups -->
-      <div id="popup-container" class="popup-container">
-        <div class="popup-message" id="popup-message">
-          <span class="popup-close" id="popup-close">X</span>
-          <p id="popup-text"></p>
-        </div>
-      </div>
-
-      <!-- Profile and Logout -->
-      <div id="profile-container" class="profile-container">
-        <span id="google-name" class="google-name"></span>
-        <button id="logout-btn" class="auth-btn">Log Out</button>
+      <!-- Email Login/Sign Up Form -->
+      <div id="email-form">
+        <input type="email" id="email-login" placeholder="Email" required />
+        <input type="password" id="password-login" placeholder="Password" required />
+        <button id="login-btn" class="auth-btn">Login</button>
+        <button id="signup-btn" class="auth-btn" style="display:none;">Sign Up</button>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Login & Sign Up</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-</head>
-<body>
-  <div id="auth-container">
-    <div id="auth-box">
-      <h2 id="auth-title">Welcome</h2>
-      <button id="google-btn" class="auth-btn">Sign In with Google</button>
+  <div id="profile-container" class="profile-container" style="display:none;">
+    <h3>Welcome, <span id="google-name"></span></h3>
+    <p id="user-email"></p>
+    <button id="logout-btn">Log out</button>
+  </div>
 
-      <!-- Email/Password Login Form -->
-      <div id="email-login" class="auth-form">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button id="login-btn" class="auth-btn">Log In</button>
-        <button id="signup-btn" class="auth-btn">Sign Up</button>
-      </div>
-
-      <!-- Sign-up or Login Toggle -->
-      <div id="toggle-signup" class="toggle-text">Don't have an account? <span id="toggle-text-span">Sign Up</span></div>
-
-      <!-- Error and Success Pop-ups -->
-      <div id="popup-container" class="popup-container">
-        <div class="popup-message" id="popup-message">
-          <span class="popup-close" id="popup-close">X</span>
-          <p id="popup-text"></p>
-        </div>
-      </div>
-
-      <!-- Profile and Logout -->
-      <div id="profile-container" class="profile-container">
-        <span id="google-name" class="google-name"></span>
-        <button id="logout-btn" class="auth-btn">Log Out</button>
-      </div>
+  <!-- Popup for errors -->
+  <div id="popup-container" class="popup-container" style="display:none;">
+    <div class="popup">
+      <p id="popup-text"></p>
+      <span id="popup-close" class="popup-close">X</span>
     </div>
   </div>
 
