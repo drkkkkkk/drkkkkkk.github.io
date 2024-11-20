@@ -1,92 +1,142 @@
-/* Global Styles */
+/* General Body Styles */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #2c2f33, #23272a);
-  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  color: #fff;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
+/* Container for Form */
 .container {
-  background: rgba(0, 0, 0, 0.85);
-  border-radius: 12px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-  padding: 20px 30px;
-  width: 300px;
   text-align: center;
+  background-color: #1d1d1d;
+  border-radius: 10px;
+  padding: 40px 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
 }
 
-/* Headings */
-.container h2 {
-  font-size: 24px;
+/* Form Title */
+h2 {
+  font-size: 2rem;
   margin-bottom: 20px;
-  color: #ffffff;
+  font-weight: 600;
 }
 
 /* Input Fields */
-input[type="email"],
-input[type="password"] {
+input {
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   margin: 10px 0;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background: #1e1e1e;
-  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  transition: 0.3s;
 }
 
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
-  color: #888;
+input:focus {
+  background-color: #444;
+  outline: none;
 }
 
 /* Buttons */
-.btn {
-  background: #5865f2;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin: 10px 0;
-  cursor: pointer;
+button {
   width: 100%;
-  transition: background 0.3s ease;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.btn:hover {
-  background: #4752c4;
+button:hover {
+  background-color: #0056cc;
 }
 
-.google-btn {
-  background: #db4437;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+button.google-btn {
+  background-color: #db4437;
 }
 
-.google-btn img.google-icon {
+button.google-btn:hover {
+  background-color: #c1351d;
+}
+
+/* Google Icon Style */
+.google-icon {
   width: 20px;
+  height: 20px;
   margin-right: 10px;
-}
-
-/* Links */
-a {
-  color: #00aaff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #0099dd;
+  vertical-align: middle;
 }
 
 /* Forgot Password Link */
 .forgot-password-link {
-  font-size: 14px;
-  margin-top: 10px;
-  display: block;
+  color: #0077ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Sign-up Link */
+a {
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 10px;
+  right: -300px;
+  background-color: #28a745;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  opacity: 0;
+  transition: 0.5s ease-out;
+}
+
+/* Notification Slide-In Animation */
+.notification.show {
+  right: 20px;
+  opacity: 1;
+}
+
+/* Close Button for Notifications */
+.notification .close-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.notification .close-btn:hover {
+  color: #ccc;
 }
