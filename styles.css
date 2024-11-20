@@ -1,3 +1,6 @@
+/* Import Google Fonts for better fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 /* Global Styles */
 * {
   margin: 0;
@@ -6,7 +9,7 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font globally */
   background-color: #121212;
   color: #fff;
   display: flex;
@@ -35,15 +38,20 @@ input, button {
   border: 1px solid #444;
   background-color: #333;
   color: white;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font to inputs and buttons */
+  transition: all 0.3s ease;
 }
 
 button {
   cursor: pointer;
   background-color: #4285F4;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
   background-color: #357AE8;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
 }
 
 .google-btn {
