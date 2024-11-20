@@ -93,3 +93,49 @@ h2 {
 #logout-btn:hover {
   background-color: #616161;
 }
+
+/* Popup Styles */
+.popup-container {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.popup-message {
+  color: #fff;
+  font-size: 14px;
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.popup-close:hover {
+  color: darkred;
+}
+
+/* Profile Section */
+.profile-container {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.google-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
