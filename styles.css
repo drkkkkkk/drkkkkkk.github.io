@@ -1,62 +1,92 @@
+/* Global Styles */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #121212;
-  color: white;
   margin: 0;
   padding: 0;
-}
-
-.auth-container {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #2c2f33, #23272a);
+  color: #ffffff;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.auth-btn {
-  background-color: #1a73e8;
-  color: white;
-  padding: 10px 20px;
+.container {
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px 30px;
+  width: 300px;
+  text-align: center;
+}
+
+/* Headings */
+.container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+/* Input Fields */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: #888;
+}
+
+/* Buttons */
+.btn {
+  background: #5865f2;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
+  padding: 10px 15px;
   margin: 10px 0;
   cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #4752c4;
+}
+
+.google-btn {
+  background: #db4437;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.auth-btn:hover {
-  background-color: #0069d9;
-}
-
-.google-icon {
+.google-btn img.google-icon {
   width: 20px;
-  height: 20px;
   margin-right: 10px;
 }
 
-#email-form input, #email-signup-form input {
-  padding: 10px;
-  margin: 10px 0;
-  width: 250px;
-  border-radius: 5px;
-  border: 1px solid #333;
-  background-color: #212121;
-  color: white;
-}
-
-#toggle-text {
-  color: #aaa;
-  cursor: pointer;
-}
-
+/* Links */
 a {
-  color: #1a73e8;
+  color: #00aaff;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: #0099dd;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
 }
