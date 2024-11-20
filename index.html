@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advent Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Firebase SDK v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+<body>
+  <div id="login-container">
+    <button id="login-btn">Login with Google</button>
+  </div>
+  
+  <div id="calendar-container" style="display: none;">
+    <h1>Christmas Advent Calendar</h1>
+    <div class="calendar">
+      <!-- Dynamic doors will be added here -->
+    </div>
+    <button id="logout-btn">Logout</button>
+  </div>
+
+  <script>
+    // Firebase v8 setup (global firebase object)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
+      authDomain: "drks-debadges.firebaseapp.com",
+      projectId: "99406338166",
+      storageBucket: "drks-debadges.appspot.com",
+      messagingSenderId: "99406338166",
+      appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const calendarContainer = document.getElementById("calendar-container");
+    const loginContainer = document.getElementById("login-container");
+
+    let user = null;
+
+    // Handle login with Google
+    loginBtn.addEventListener("click", () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          user = result.user;
+          updateUI();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+
+    // Handle logout
+    logoutBtn.addEventListener("click", () => {
+      firebase.auth().signOut().then(() => {
+        user = null;
+        updateUI();
+      });
+    });
+
+    // Update UI based on authentication state
+    firebase.auth().onAuthStateChanged((currentUser) => {
+      user = currentUser;
+      updateUI();
+    });
+
+    // Update the UI based on the user's authentication state
+    function updateUI() {
+      if (user) {
+        loginContainer.style.display = "none";
+        calendarContainer.style.display = "block";
+        generateCalendar();
+      } else {
+        loginContainer.style.display = "block";
+        calendarContainer.style.display = "none";
+      }
+    }
+
+    // Generate the calendar with doors
+    function generateCalendar() {
+      const calendar = document.querySelector(".calendar");
+      const today = new Date();
+      const currentDay = today.getDate();
+      const month = today.getMonth(); // December month check
+
+      // Create 25 doors
+      for (let day = 1; day <= 25; day++) {
+        const door = document.createElement("div");
+        door.classList.add("door");
+        door.innerHTML = day;
+        door.dataset.day = day;
+
+        // Disable future doors and opened ones
+        if (day > currentDay) {
+          door.classList.add("disabled");
+          door.style.pointerEvents = "none";
+        } else if (localStorage.getItem(`day${day}`)) {
+          door.classList.add("opened");
+          door.innerHTML = "🎁 Opened!";
+        }
+
+        // Add click event to open the door
+        door.addEventListener("click", () => openDoor(door, day));
+
+        calendar.appendChild(door);
+      }
+    }
+
+    // Handle opening the door
+    function openDoor(door, day) {
+      if (door.classList.contains("disabled") || door.classList.contains("opened")) return;
+
+      door.classList.add("opened");
+      door.innerHTML = "🎁 You found a gift!";
+
+      // Store progress in localStorage
+      localStorage.setItem(`day${day}`, "opened");
+    }
+  </script>
+</body>
+</html>

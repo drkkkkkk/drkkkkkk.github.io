@@ -1,0 +1,82 @@
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f5e6; /* Soft beige */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Merry Christmas', cursive;
+  color: #b52d2d; /* Festive Red */
+  margin-bottom: 20px;
+}
+
+/* Calendar Container */
+#calendar-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#login-container {
+  text-align: center;
+}
+
+/* Calendar Grid */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  width: 80%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.door {
+  background-color: #e93f3f; /* Red doors */
+  border-radius: 8px;
+  padding: 30px;
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.door.opened {
+  background-color: #fff; /* White after opening */
+  color: #333;
+}
+
+.door:hover {
+  background-color: #ff5f5f; /* Lighter red on hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#day25 {
+  background-color: #ffbd45; /* Gold for Christmas Day */
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .calendar {
+    grid-template-columns: repeat(2, 1fr); /* Two columns on mobile */
+  }
+  .door {
+    font-size: 20px;
+    padding: 20px;
+  }
+}
