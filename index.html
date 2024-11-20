@@ -1,110 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - My App</title>
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Firebase Initialization Script -->
-    <script type="module" src="firebase-init.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Login to Your Account</h2>
-        
-        <!-- Google Login Button -->
-        <button id="google-login-btn" class="google-btn">
-            <img src="favicon.ico" alt="Google Logo" style="width: 20px; margin-right: 8px;">Login with Google
-        </button>
 
-        <!-- Login with Email and Password -->
-        <input type="email" id="login-email" placeholder="Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button id="login-btn">Login</button>
+  <div id="login-container">
+    <h2>Login</h2>
+    <input type="email" id="email-input" placeholder="Email" required />
+    <input type="password" id="password-input" placeholder="Password" required />
+    <button id="login-btn">Login</button>
+    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    <button id="google-btn">Login with Google</button>
+    <button id="forgot-password-btn">Forgot Password?</button>
+  </div>
 
-        <a href="signup.html">Don't have an account? Sign up</a>
-        <a href="#" id="forgot-password">Forgot password?</a>
-    </div>
-
-    <!-- Custom Script -->
-    <script type="module">
-        import { auth } from './firebase-init.js';
-        import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-
-        const googleBtn = document.getElementById("google-login-btn");
-        const loginBtn = document.getElementById("login-btn");
-        const emailInput = document.getElementById("login-email");
-        const passwordInput = document.getElementById("login-password");
-        const forgotPassword = document.getElementById("forgot-password");
-
-        // Google Login
-        googleBtn.addEventListener("click", () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    window.location.href = 'profile.html';
-                })
-                .catch((error) => {
-                    showNotification(error.message, 'error');
-                });
-        });
-
-        // Email Login
-        loginBtn.addEventListener("click", () => {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    if (user.emailVerified) {
-                        showNotification("Login successful!", 'success');
-                        window.location.href = 'profile.html';
-                    } else {
-                        showNotification("Please verify your email first.", 'error');
-                    }
-                })
-                .catch((error) => {
-                    showNotification(error.message, 'error');
-                });
-        });
-
-        // Forgot Password
-        forgotPassword.addEventListener("click", () => {
-            const email = prompt("Please enter your email:");
-            if (!email) return;
-
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showNotification("Password reset email sent! Please check your inbox.", 'success');
-                })
-                .catch((error) => {
-                    showNotification(error.message, 'error');
-                });
-        });
-
-        // Show Notifications
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.classList.add('notification', type === 'success' ? 'show' : '');
-            notification.classList.add(type);
-            notification.innerHTML = `
-                <span>${message}</span>
-                <button class="close-btn">&times;</button>
-            `;
-            document.body.appendChild(notification);
-
-            notification.querySelector('.close-btn').addEventListener('click', () => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
-            });
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
-            }, 5000);
-        }
-    </script>
+  <script type="module" src="firebase-init.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
