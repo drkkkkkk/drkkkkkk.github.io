@@ -22,7 +22,6 @@ body {
   border-radius: 5px;
   margin: 10px 0;
   cursor: pointer;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
