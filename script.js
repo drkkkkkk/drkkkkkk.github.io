@@ -19,7 +19,11 @@ const loginBtn = document.getElementById("login-btn");
 const signupBtn = document.getElementById("signup-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const toggleTextSpan = document.getElementById("toggle-text-span");
-const authTitle = document.getElementById("auth-title");
+const googleName = document.getElementById("google-name");
+const profileContainer = document.getElementById("profile-container");
+const popupContainer = document.getElementById("popup-container");
+const popupText = document.getElementById("popup-text");
+const popupClose = document.getElementById("popup-close");
 
 let isSignUpMode = false;
 
@@ -28,10 +32,10 @@ googleBtn.addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
-      updateUI();
+      updateUI(result.user);
     })
     .catch((error) => {
-      console.error(error);
+      showError(error.message);
     });
 });
 
@@ -48,19 +52,19 @@ loginBtn.addEventListener("click", () => {
 
   if (isSignUpMode) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        updateUI();
+      .then((userCredential) => {
+        updateUI(userCredential.user);
       })
       .catch((error) => {
-        console.error(error);
+        showError(error.message);
       });
   } else {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        updateUI();
+      .then((userCredential) => {
+        updateUI(userCredential.user);
       })
       .catch((error) => {
-        console.error(error);
+        showError(error.message);
       });
   }
 });
@@ -72,7 +76,7 @@ logoutBtn.addEventListener("click", () => {
       updateUI();
     })
     .catch((error) => {
-      console.error(error);
+      showError(error.message);
     });
 });
 
@@ -81,22 +85,37 @@ firebase.auth().onAuthStateChanged(user => {
   updateUI(user);
 });
 
+// Show Pop-up Error
+function showError(message) {
+  popupText.textContent = message;
+  popupContainer.style.display = 'block';
+}
+
+// Update UI for logged-in/logged-out state
 function updateUI(user = null) {
   if (user) {
     document.getElementById("auth-container").style.display = "none";
+    profileContainer.style.display = "block";
+    googleName.textContent = user.displayName;
     logoutBtn.style.display = "block";
   } else {
     document.getElementById("auth-container").style.display = "flex";
+    profileContainer.style.display = "none";
     logoutBtn.style.display = "none";
   }
 
   if (isSignUpMode) {
-    authTitle.textContent = "Sign Up";
+    document.getElementById("auth-title").textContent = "Sign Up";
     signupBtn.style.display = "block";
     loginBtn.style.display = "none";
   } else {
-    authTitle.textContent = "Login";
+    document.getElementById("auth-title").textContent = "Login";
     signupBtn.style.display = "none";
     loginBtn.style.display = "block";
   }
 }
+
+// Close pop-up on 'X' click
+popupClose.addEventListener("click", () => {
+  popupContainer.style.display = 'none';
+});
