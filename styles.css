@@ -37,19 +37,14 @@ body {
   margin-right: 10px;
 }
 
-#email-form input {
+#email-form input, #email-signup-form input {
   padding: 10px;
   margin: 10px 0;
-  width: 200px;
+  width: 250px;
   border-radius: 5px;
   border: 1px solid #333;
   background-color: #212121;
   color: white;
-}
-
-#email-form {
-  display: flex;
-  flex-direction: column;
 }
 
 #toggle-text {
@@ -57,57 +52,11 @@ body {
   cursor: pointer;
 }
 
-.profile-container {
-  text-align: center;
-  padding: 20px;
-  background-color: #212121;
-  border-radius: 10px;
+a {
+  color: #1a73e8;
+  text-decoration: none;
 }
 
-#google-name {
-  font-weight: bold;
-}
-
-#logout-btn {
-  background-color: #f44336;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-#logout-btn:hover {
-  background-color: #d32f2f;
-}
-
-.popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup {
-  background-color: #333;
-  padding: 20px;
-  border-radius: 5px;
-  color: white;
-  width: 300px;
-  text-align: center;
-}
-
-.popup-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  color: red;
-  font-size: 20px;
+a:hover {
+  text-decoration: underline;
 }
