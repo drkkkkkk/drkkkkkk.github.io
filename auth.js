@@ -1,4 +1,4 @@
-// Firebase Configuration
+// ee
 const firebaseConfig = {
     apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
     authDomain: "drks-debadges.firebaseapp.com",
