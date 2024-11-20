@@ -8,19 +8,23 @@ const firebaseConfig = {
   appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+// Initialize Firebase only once
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app();
+}
 
 // DOM Elements
 const googleBtn = document.getElementById("google-btn");
-const emailLoginForm = document.getElementById("email-login");
 const loginBtn = document.getElementById("login-btn");
 const signupBtn = document.getElementById("signup-btn");
+const toggleTextSpan = document.getElementById("toggle-text");
 const logoutBtn = document.getElementById("logout-btn");
-const toggleTextSpan = document.getElementById("toggle-text-span");
-const googleName = document.getElementById("google-name");
 const profileContainer = document.getElementById("profile-container");
+const authContainer = document.getElementById("auth-container");
+const googleName = document.getElementById("google-name");
+const userEmail = document.getElementById("user-email");
 const popupContainer = document.getElementById("popup-container");
 const popupText = document.getElementById("popup-text");
 const popupClose = document.getElementById("popup-close");
@@ -47,8 +51,8 @@ toggleTextSpan.addEventListener("click", () => {
 
 // Email Login / Sign Up
 loginBtn.addEventListener("click", () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("email-login").value;
+  const password = document.getElementById("password-login").value;
 
   if (isSignUpMode) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -88,18 +92,19 @@ firebase.auth().onAuthStateChanged(user => {
 // Show Pop-up Error
 function showError(message) {
   popupText.textContent = message;
-  popupContainer.style.display = 'block';
+  popupContainer.style.display = 'flex';
 }
 
 // Update UI for logged-in/logged-out state
 function updateUI(user = null) {
   if (user) {
-    document.getElementById("auth-container").style.display = "none";
+    authContainer.style.display = "none";
     profileContainer.style.display = "block";
     googleName.textContent = user.displayName;
+    userEmail.textContent = user.email;
     logoutBtn.style.display = "block";
   } else {
-    document.getElementById("auth-container").style.display = "flex";
+    authContainer.style.display = "flex";
     profileContainer.style.display = "none";
     logoutBtn.style.display = "none";
   }
