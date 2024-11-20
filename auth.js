@@ -11,15 +11,40 @@ const firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  // Password Reset
-  document.getElementById('reset-btn').addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent page refresh
-    const email = document.getElementById('reset-email').value;
-    firebase.auth().sendPasswordResetEmail(email)
+  // DOM Elements for Sign In
+  const signInBtn = document.getElementById('sign-in-btn');
+  const googleBtn = document.getElementById('google-btn');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  // Redirect if user is already logged in
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      window.location.href = "profile.html"; // Redirect to profile if logged in
+    }
+  });
+
+  // Sign In with Email/Password
+  signInBtn.addEventListener('click', () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        alert("Password reset email sent.");
+        window.location.href = 'profile.html'; // Redirect to profile
       })
       .catch(error => {
-        alert(error.message);
+        alert(error.message); // Handle errors
+      });
+  });
+
+  // Google Sign-In
+  googleBtn.addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then(result => {
+        window.location.href = 'profile.html'; // Redirect to profile
+      })
+      .catch(error => {
+        alert(error.message); // Handle errors
       });
   });
