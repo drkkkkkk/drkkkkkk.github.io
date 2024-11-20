@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advent Calendar - Login</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - My App</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button class="btn" id="login-btn">Login</button>
-    <button class="btn google-btn" id="google-login-btn">
-      <img src="favicon.ico" alt="Google" class="google-icon"> Login with Google
-    </button>
-    <a href="signup.html">Don't have an account? Sign up</a>
-    <a href="#" class="forgot-password-link" id="forgot-password">Forgot Password?</a>
-  </div>
+    <div class="container">
+        <h2>Login to Your Account</h2>
+        
+        <!-- Google Login Button -->
+        <button id="google-login-btn" class="google-btn">
+            <img src="favicon.ico" alt="Google Logo" style="width: 20px; margin-right: 8px;">Login with Google
+        </button>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+        <!-- Login with Email and Password -->
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button id="login-btn">Login</button>
 
-  <!-- Custom Script -->
-  <script src="script.js"></script>
+        <a href="signup.html">Don't have an account? Sign up</a>
+        <a href="#" id="forgot-password">Forgot password?</a>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notifications"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
