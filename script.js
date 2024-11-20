@@ -1,71 +1,29 @@
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-  authDomain: "drks-debadges.firebaseapp.com",
-  projectId: "99406338166",
-  storageBucket: "drks-debadges.appspot.com",
-  messagingSenderId: "99406338166",
-  appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advent Calendar - Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+    <button class="btn" id="login-btn">Login</button>
+    <button class="btn google-btn" id="google-login-btn">
+      <img src="favicon.ico" alt="Google" class="google-icon"> Login with Google
+    </button>
+    <a href="signup.html">Don't have an account? Sign up</a>
+    <a href="#" class="forgot-password-link" id="forgot-password">Forgot Password?</a>
+  </div>
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-// DOM Elements
-const googleBtn = document.getElementById("google-login-btn");
-const loginBtn = document.getElementById("login-btn");
-const forgotPassword = document.getElementById("forgot-password");
-const emailInput = document.getElementById("login-email");
-const passwordInput = document.getElementById("login-password");
-
-// Google Login
-googleBtn.addEventListener("click", () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider)
-    .then((result) => {
-      alert(`Welcome, ${result.user.displayName}!`);
-      window.location.href = 'profile.html';
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-});
-
-// Email Login
-loginBtn.addEventListener("click", () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (!email || !password) {
-    alert("Please fill in both email and password.");
-    return;
-  }
-
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      if (user.emailVerified) {
-        alert("Login successful!");
-        window.location.href = 'profile.html';
-      } else {
-        alert("Please verify your email first.");
-      }
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-});
-
-// Forgot Password
-forgotPassword.addEventListener("click", () => {
-  const email = prompt("Please enter your email:");
-  if (!email) return;
-
-  firebase.auth().sendPasswordResetEmail(email)
-    .then(() => {
-      alert("Password reset email sent! Please check your inbox.");
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-});
+  <!-- Custom Script -->
+  <script src="script.js"></script>
+</body>
+</html>
