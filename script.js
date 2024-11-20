@@ -25,11 +25,11 @@ googleBtn.addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
-      alert(`Welcome, ${result.user.displayName}!`);
+      showNotification(`Welcome, ${result.user.displayName}!`, 'success');
       window.location.href = 'profile.html';
     })
     .catch((error) => {
-      alert(error.message);
+      showNotification(error.message, 'error');
     });
 });
 
@@ -39,7 +39,7 @@ loginBtn.addEventListener("click", () => {
   const password = passwordInput.value.trim();
 
   if (!email || !password) {
-    alert("Please fill in both email and password.");
+    showNotification("Please fill in both email and password.", 'error');
     return;
   }
 
@@ -47,14 +47,14 @@ loginBtn.addEventListener("click", () => {
     .then((userCredential) => {
       const user = userCredential.user;
       if (user.emailVerified) {
-        alert("Login successful!");
+        showNotification("Login successful!", 'success');
         window.location.href = 'profile.html';
       } else {
-        alert("Please verify your email first.");
+        showNotification("Please verify your email first.", 'error');
       }
     })
     .catch((error) => {
-      alert(error.message);
+      showNotification(error.message, 'error');
     });
 });
 
@@ -65,9 +65,32 @@ forgotPassword.addEventListener("click", () => {
 
   firebase.auth().sendPasswordResetEmail(email)
     .then(() => {
-      alert("Password reset email sent! Please check your inbox.");
+      showNotification("Password reset email sent! Please check your inbox.", 'success');
     })
     .catch((error) => {
-      alert(error.message);
+      showNotification(error.message, 'error');
     });
 });
+
+// Function to Show Notifications
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.classList.add('notification', type === 'success' ? 'show' : '');
+  notification.innerHTML = `
+    <span>${message}</span>
+    <button class="close-btn">&times;</button>
+  `;
+  document.body.appendChild(notification);
+
+  // Close button logic
+  notification.querySelector('.close-btn').addEventListener('click', () => {
+    notification.classList.remove('show');
+    setTimeout(() => notification.remove(), 500);
+  });
+
+  // Automatically hide after 5 seconds
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => notification.remove(), 500);
+  }, 5000);
+}
