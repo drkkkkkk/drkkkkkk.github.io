@@ -15,7 +15,6 @@ firebase.initializeApp(firebaseConfig);
 const signupBtn = document.getElementById("signup-btn");
 const signupEmailInput = document.getElementById("signup-email-input");
 const signupPasswordInput = document.getElementById("signup-password-input");
-
 const errorMessage = document.getElementById('error-message');
 const successMessage = document.getElementById('success-message');
 
@@ -32,7 +31,7 @@ signupBtn.addEventListener("click", (event) => {
     return;
   }
 
-  // First, register the user with email and password
+  // Register the user with email and password
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;

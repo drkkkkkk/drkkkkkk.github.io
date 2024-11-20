@@ -13,72 +13,40 @@ firebase.initializeApp(firebaseConfig);
 
 // DOM Elements
 const loginBtn = document.getElementById("login-btn");
-const signupBtn = document.getElementById("signup-btn");
-const forgotPasswordBtn = document.getElementById("forgot-password-btn");
-const googleBtn = document.getElementById("google-btn");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const loginEmailInput = document.getElementById("login-email-input");
+const loginPasswordInput = document.getElementById("login-password-input");
+const errorMessage = document.getElementById('login-error-message');
+const successMessage = document.getElementById('login-success-message');
 
-// Show notification
-function showNotification(message) {
-  const notification = document.createElement("div");
-  notification.classList.add("notification");
-  notification.innerText = message;
-  document.body.appendChild(notification);
-  setTimeout(() => {
-    notification.classList.add("show");
-  }, 10);
-  setTimeout(() => {
-    notification.classList.remove("show");
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
+// Login Functionality
+loginBtn.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevent form submission
 
-// Google Login
-googleBtn.addEventListener("click", () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider)
-    .then((result) => {
-      showNotification('Successfully logged in with Google!');
-      window.location.href = 'profile.html';
-    })
-    .catch((error) => {
-      showNotification(error.message);
-    });
-});
+  const email = loginEmailInput.value;
+  const password = loginPasswordInput.value;
 
-// Login with email and password
-loginBtn.addEventListener("click", () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
+  if (!email || !password) {
+    errorMessage.textContent = "Please fill in all fields.";
+    errorMessage.style.display = "block";
+    return;
+  }
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      if (userCredential.user.emailVerified) {
-        window.location.href = 'profile.html';
+      const user = userCredential.user;
+      if (user.emailVerified) {
+        successMessage.textContent = 'Successfully logged in!';
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = 'profile.html'; // Redirect to profile page
+        }, 3000);
       } else {
-        showNotification("Please verify your email first.");
+        errorMessage.textContent = "Please verify your email first.";
+        errorMessage.style.display = "block";
       }
     })
     .catch((error) => {
-      showNotification(error.message);
-    });
-});
-
-// Sign up
-signupBtn.addEventListener("click", () => {
-  window.location.href = 'signup.html'; // Redirect to signup page
-});
-
-// Forgot Password
-forgotPasswordBtn.addEventListener("click", () => {
-  const email = emailInput.value;
-
-  firebase.auth().sendPasswordResetEmail(email)
-    .then(() => {
-      showNotification("Password reset email sent!");
-    })
-    .catch((error) => {
-      showNotification(error.message);
+      errorMessage.textContent = error.message;
+      errorMessage.style.display = "block";
     });
 });
