@@ -16,9 +16,9 @@ if (!firebase.apps.length) {
 // DOM Elements
 const googleBtn = document.getElementById("google-login-btn");
 const loginBtn = document.getElementById("login-btn");
-const forgotPassword = document.getElementById("forgot-password");
 const emailInput = document.getElementById("login-email");
 const passwordInput = document.getElementById("login-password");
+const forgotPassword = document.getElementById("forgot-password");
 
 // Google Login
 googleBtn.addEventListener("click", () => {
@@ -76,6 +76,7 @@ forgotPassword.addEventListener("click", () => {
 function showNotification(message, type) {
   const notification = document.createElement('div');
   notification.classList.add('notification', type === 'success' ? 'show' : '');
+  notification.classList.add(type);
   notification.innerHTML = `
     <span>${message}</span>
     <button class="close-btn">&times;</button>
