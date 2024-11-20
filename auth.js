@@ -36,6 +36,7 @@ loginBtn.addEventListener("click", (event) => {
       const user = userCredential.user;
       if (user.emailVerified) {
         successMessage.textContent = 'Successfully logged in!';
+        window.location.href = 'profile.html';
         successMessage.style.display = 'block';
         setTimeout(() => {
           window.location.href = 'profile.html'; // Redirect to profile page
