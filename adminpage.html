@@ -3,99 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel Login</title>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="styles.css">
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
-    import bcrypt from "https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-      authDomain: "drks-debadges.firebaseapp.com",
-      projectId: "99406338166",
-      storageBucket: "drks-debadges.appspot.com",
-      messagingSenderId: "99406338166",
-      appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const firestore = getFirestore(app);
-
-    const adminUsername = "ROOT";
-    const hashedPassword = "$2a$10$zEdkXa90y5Qu7MGjL5XkWOmx1SPADsysezxmpIjb6J0V.U5JWi5ym";
-
-    async function verifyLogin(username, password) {
-      if (username === adminUsername) {
-        const isPasswordCorrect = await bcrypt.compare(password, hashedPassword);
-        if (isPasswordCorrect) {
-          alert("Login successful!");
-          document.getElementById("login-form").style.display = "none";
-          document.getElementById("admin-panel").style.display = "block";
-          loadUsers();
-        } else {
-          alert("Incorrect password.");
-        }
-      } else {
-        alert("Incorrect username.");
-      }
-    }
-
-    async function loadUsers() {
-      const userTableBody = document.querySelector("#userTable tbody");
-      userTableBody.innerHTML = "";
-      const usersRef = firestore.collection("users");
-      const snapshot = await usersRef.get();
-      snapshot.forEach(doc => {
-        const user = doc.data();
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${user.email}</td>
-          <td>${user.ip}</td>
-          <td>${user.username}</td>
-          <td>
-            <button onclick="banUser('${doc.id}')">Ban</button>
-            <button onclick="unbanUser('${doc.id}')">Unban</button>
-            <button onclick="sendResetLink('${user.email}')">Change Password</button>
-          </td>`;
-        userTableBody.appendChild(row);
-      });
-    }
-
-    async function banUser(userId) {
-      const userDoc = firestore.doc(`users/${userId}`);
-      await userDoc.update({ banned: true });
-      alert("User has been banned.");
-      loadUsers();
-    }
-
-    async function unbanUser(userId) {
-      const userDoc = firestore.doc(`users/${userId}`);
-      await userDoc.update({ banned: false });
-      alert("User has been unbanned.");
-      loadUsers();
-    }
-
-    async function sendResetLink(email) {
-      try {
-        await auth.sendPasswordResetEmail(email);
-        alert("Password reset link sent!");
-      } catch (error) {
-        console.error("Error sending password reset link: ", error);
-      }
-    }
-
-    document.getElementById("login-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      await verifyLogin(username, password);
-    });
-  </script>
 </head>
 <body>
+  <!-- Login Form -->
   <div id="login-form">
     <h1>Admin Login</h1>
     <form>
@@ -107,24 +19,112 @@
     </form>
   </div>
 
+  <!-- Admin Panel -->
   <div id="admin-panel" style="display: none;">
-    <div class="admin-header">
-      <h1>Admin Panel</h1>
-    </div>
-    <div class="user-list">
-      <table id="userTable">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>IP</th>
-            <th>Username</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+    <h1>Admin Panel</h1>
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>IP</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
+
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
+      authDomain: "drks-debadges.firebaseapp.com",
+      projectId: "99406338166",
+      storageBucket: "drks-debadges.appspot.com",
+      messagingSenderId: "99406338166",
+      appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const firestore = getFirestore(app);
+
+    // Login function
+    document.querySelector("#login-form form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "ROOT" && password === "fOlta0pzr9") {
+        alert("Login successful!");
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("admin-panel").style.display = "block";
+        loadUsers();
+      } else {
+        alert("Invalid credentials.");
+      }
+    });
+
+    // Load users from Firestore
+    async function loadUsers() {
+      const userTableBody = document.querySelector("#userTable tbody");
+      userTableBody.innerHTML = ""; // Clear existing rows
+
+      const usersRef = collection(firestore, "users");
+      const snapshot = await getDocs(usersRef);
+      snapshot.forEach(doc => {
+        const user = doc.data();
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${user.email}</td>
+          <td>${user.ip}</td>
+          <td>${user.username}</td>
+          <td>
+            <button onclick="banUser('${doc.id}')">Ban</button>
+            <button onclick="unbanUser('${doc.id}')">Unban</button>
+            <button onclick="sendResetLink('${user.email}')">Reset Password</button>
+          </td>`;
+        userTableBody.appendChild(row);
+      });
+    }
+
+    // Ban user
+    async function banUser(userId) {
+      const userDoc = doc(firestore, "users", userId);
+      await updateDoc(userDoc, { banned: true });
+      alert("User has been banned.");
+      loadUsers();
+    }
+
+    // Unban user
+    async function unbanUser(userId) {
+      const userDoc = doc(firestore, "users", userId);
+      await updateDoc(userDoc, { banned: false });
+      alert("User has been unbanned.");
+      loadUsers();
+    }
+
+    // Reset password
+    async function sendResetLink(email) {
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset link sent!");
+      } catch (error) {
+        console.error("Error sending reset link:", error);
+      }
+    }
+
+    // Expose functions to the global scope (required for inline onclick handlers)
+    window.banUser = banUser;
+    window.unbanUser = unbanUser;
+    window.sendResetLink = sendResetLink;
+  </script>
 </body>
 </html>
