@@ -8,19 +8,17 @@ const firebaseConfig = {
   appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Elements
 const loginForm = document.getElementById("login-form");
 const emailInput = document.getElementById("login-email");
 const passwordInput = document.getElementById("login-password");
 const loginBtn = document.getElementById("login-btn");
+const Feedbackeror = document.getElementById("error-message-login")
+const feedbackSuccess = document.getElementById("success-message-login")
 
-// Google Login Button
 const googleLoginBtn = document.getElementById("google-login-btn");
 
-// Login with Firebase
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -29,11 +27,12 @@ loginForm.addEventListener("submit", (e) => {
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Successful login
-      window.location.href = "profile.html"; // Redirect to profile page
+      window.location.href = "profile.html";
     })
     .catch((error) => {
-      alert(error.message); // Display error
+      feedbackSuccess.style.display = "none";
+      Feedbackeror.style.display = "block";
+      Feedbackeror.textContent = `Error: ${error.message}`;
     });
 });
 
@@ -42,10 +41,9 @@ googleLoginBtn.addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
-      // Successful Google login
-      window.location.href = "profile.html"; // Redirect to profile page
+      window.location.href = "profile.html";
     })
     .catch((error) => {
-      alert(error.message); // Display error
+      alert(error.message);
     });
 });
