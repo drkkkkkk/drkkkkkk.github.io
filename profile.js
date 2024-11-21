@@ -32,6 +32,16 @@ firebase.auth().onAuthStateChanged((user) => {
     profilePic.src = user.photoURL || "default-pic.png";
     profileName.textContent = user.displayName || "Anonymous User";
 
+    // Show admin access button if the user is drkplayz.help@gmail.com
+    if (user.email === "drkplayz.help@gmail.com") {
+      const adminButton = document.createElement('button');
+      adminButton.textContent = "Go to Admin Panel";
+      adminButton.addEventListener('click', () => {
+        window.location.href = "adminpage.html";
+      });
+      document.body.appendChild(adminButton);
+    }
+
     // Update name
     saveNameBtn.addEventListener("click", () => {
       const newName = newNameInput.value.trim();

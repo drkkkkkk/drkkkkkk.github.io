@@ -4,104 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Your custom CSS file -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-  <script>
-    // Firebase configuration (replace with your actual config)
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
     const firebaseConfig = {
-        apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-        authDomain: "drks-debadges.firebaseapp.com",
-        projectId: "99406338166",
-        storageBucket: "drks-debadges.appspot.com",
-        messagingSenderId: "99406338166",
-        appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-      };
+      apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
+      authDomain: "drks-debadges.firebaseapp.com",
+      projectId: "99406338166",
+      storageBucket: "drks-debadges.appspot.com",
+      messagingSenderId: "99406338166",
+      appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
+    };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const firestore = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const firestore = getFirestore(app);
 
-    // Add Firebase authentication and Firestore functions here
-  </script>
-</head>
-<body>
-  <div class="admin-panel">
-    <div class="admin-header">
-      <h1>Admin Panel</h1>
-    </div>
-
-    <div class="user-list">
-      <table id="userTable">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>IP</th>
-            <th>Username</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- User rows will be added here dynamically -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <script>
-    // Get users from Firestore and display them
-    function loadUsers() {
-      firestore.collection("users").get().then(snapshot => {
-        snapshot.forEach(doc => {
-          const user = doc.data();
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${user.email}</td>
-            <td>${user.ip}</td>
-            <td>${user.username}</td>
-            <td>
-              <button onclick="banUser('${doc.id}')">Ban</button>
-              <button onclick="unbanUser('${doc.id}')">Unban</button>
-              <button onclick="sendResetLink('${user.email}')">Change Password</button>
-            </td>
-          `;
-          document.querySelector('#userTable tbody').appendChild(row);
-        });
+    // Load users from Firestore
+    async function loadUsers() {
+      const querySnapshot = await getDocs(collection(firestore, "users"));
+      querySnapshot.forEach((doc) => {
+        const user = doc.data();
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.email}</td>
+          <td>${user.ip}</td>
+          <td>${user.username}</td>
+          <td>
+            <button onclick="banUser('${doc.id}')">Ban</button>
+            <button onclick="unbanUser('${doc.id}')">Unban</button>
+            <button onclick="sendResetLink('${user.email}')">Change Password</button>
+          </td>
+        `;
+        document.querySelector('#userTable tbody').appendChild(row);
       });
     }
 
     // Ban user function
-    function banUser(userId) {
-      firestore.collection("users").doc(userId).update({
-        banned: true
-      }).then(() => {
+    async function banUser(userId) {
+      try {
+        const userRef = doc(firestore, "users", userId);
+        await updateDoc(userRef, { banned: true });
         alert("User has been banned");
         loadUsers(); // Reload the users list
-      }).catch(error => {
+      } catch (error) {
         console.error("Error banning user: ", error);
-      });
+      }
     }
 
     // Unban user function
-    function unbanUser(userId) {
-      firestore.collection("users").doc(userId).update({
-        banned: false
-      }).then(() => {
+    async function unbanUser(userId) {
+      try {
+        const userRef = doc(firestore, "users", userId);
+        await updateDoc(userRef, { banned: false });
         alert("User has been unbanned");
         loadUsers(); // Reload the users list
-      }).catch(error => {
+      } catch (error) {
         console.error("Error unbanning user: ", error);
-      });
+      }
     }
 
     // Send password reset link
     function sendResetLink(email) {
-      auth.sendPasswordResetEmail(email).then(() => {
-        alert("Password reset link sent!");
-      }).catch((error) => {
-        console.error("Error sending reset link: ", error);
-      });
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          alert("Password reset link sent!");
+        })
+        .catch((error) => {
+          console.error("Error sending reset link: ", error);
+        });
     }
 
     // Initialize the admin panel
@@ -109,5 +84,23 @@
       loadUsers();
     }
   </script>
+</head>
+<body>
+  <div class="admin-panel">
+    <h1>Admin Panel</h1>
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>IP</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- User rows will be added here dynamically -->
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
