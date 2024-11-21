@@ -1,45 +1,44 @@
-<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-
-  <h1>Your Profile</h1>
-
-  <div>
-    <img id="profile-pic" src="default-pic.png" alt="Profile Picture" width="100">
-    <h2 id="profile-name">Loading...</h2>
+  <div class="top-bar">
+    <img id="profile-pic" alt="Profile Picture" class="profile-pic">
+    <span id="profile-name"></span>
+    <button id="dropdown-btn">▼</button>
+    <div id="dropdown-menu" class="dropdown-menu">
+      <button id="logout-btn">Logout</button>
+      <button id="change-name-btn">Change Name</button>
+      <button id="change-email-btn">Change Email</button>
+    </div>
   </div>
 
-  <button id="dropdown-btn">Account Settings</button>
-  <div id="dropdown-menu" style="display: none;">
-    <button id="change-name-btn">Change Name</button>
-    <button id="change-email-btn">Change Email</button>
-    <button id="logout-btn">Logout</button>
+  <div id="change-name-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-modal-btn" class="close-btn">&times;</span>
+      <h3>Change Name</h3>
+      <input id="new-name-input" type="text" placeholder="Enter new name">
+      <button id="save-name-btn">Save</button>
+    </div>
   </div>
 
-  <!-- Change Name Modal -->
-  <div id="change-name-modal" style="display: none;">
-    <h3>Change Name</h3>
-    <input type="text" id="new-name-input" placeholder="New name">
-    <button id="save-name-btn">Save</button>
-    <button id="close-modal-btn">Close</button>
+  <div id="change-email-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-email-modal-btn" class="close-btn">&times;</span>
+      <h3>Change Email</h3>
+      <input id="new-email-input" type="email" placeholder="Enter new email">
+      <button id="save-email-btn">Save</button>
+    </div>
   </div>
 
-  <!-- Change Email Modal -->
-  <div id="change-email-modal" style="display: none;">
-    <h3>Change Email</h3>
-    <input type="email" id="new-email-input" placeholder="New email">
-    <button id="save-email-btn">Save</button>
-    <button id="close-email-modal-btn">Close</button>
-  </div>
-
-  <script src="supabase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="profile.js"></script>
 </body>
 </html>

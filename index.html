@@ -1,35 +1,40 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-  <h1>Login</h1>
+  <div class="auth-container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <button type="submit" id="login-btn">Log In</button>
 
-  <form id="login-form">
-    <div>
-      <label for="login-email">Email:</label>
-      <input type="email" id="login-email" required>
-    </div>
+      <div class="or-divider">
+        <span>OR</span>
+      </div>
 
-    <div>
-      <label for="login-password">Password:</label>
-      <input type="password" id="login-password" required>
-    </div>
+      <button type="button" id="google-login-btn" class="google-btn">
+        <img src="google-icon.svg" alt="Google Logo" class="google-icon"> Login with Google
+      </button>
 
-    <button id="login-btn" type="submit">Login</button>
+  <p id="success-message-login" class="success-message" style="display: none;"></p>
+  <p id="error-message-login" class="error-message" style="display: none;"></p>
 
-    <div id="error-message-login" style="color: red; display: none;"></div>
-  </form>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+      <p><a href="forgot-password.html">Forgot Password?</a></p>
+    </form>
+  </div>
 
-  <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
-
-  <script src="supabase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="auth.js"></script>
+
 </body>
 </html>

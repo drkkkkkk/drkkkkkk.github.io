@@ -1,36 +1,32 @@
-<!-- signup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-  <h1>Create an Account</h1>
+  <div class="auth-container">
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <button type="submit" id="signup-btn">Sign Up</button>
 
-  <form id="signup-form">
-    <div>
-      <label for="signup-email">Email:</label>
-      <input type="email" id="signup-email" required>
-    </div>
+      <!-- Feedback Messages -->
+      <p id="success-message" class="success-message" style="display: none;"></p>
+      <p id="error-message" class="error-message" style="display: none;"></p>
 
-    <div>
-      <label for="signup-password">Password:</label>
-      <input type="password" id="signup-password" required>
-    </div>
+      <p>Already have an account? <a href="index.html">Login</a></p>
+    </form>
+  </div>
 
-    <button id="signup-btn" type="submit">Sign Up</button>
-
-    <div id="error-message" style="color: red; display: none;"></div>
-    <div id="success-message" style="color: green; display: none;"></div>
-  </form>
-
-  <p>Already have an account? <a href="login.html">Login here</a></p>
-
-  <script src="supabase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="signup.js"></script>
+
 </body>
 </html>
