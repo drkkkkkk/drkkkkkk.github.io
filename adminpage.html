@@ -36,12 +36,10 @@
   </div>
 
   <script type="module">
-    // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
     import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
       authDomain: "drks-debadges.firebaseapp.com",
@@ -51,12 +49,10 @@
       appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const firestore = getFirestore(app);
 
-    // Login function
     document.querySelector("#login-form form").addEventListener("submit", async (event) => {
       event.preventDefault();
       const username = document.getElementById("username").value;
@@ -72,7 +68,6 @@
       }
     });
 
-    // Load users from Firestore
     async function loadUsers() {
       const userTableBody = document.querySelector("#userTable tbody");
       userTableBody.innerHTML = ""; // Clear existing rows
@@ -95,7 +90,6 @@
       });
     }
 
-    // Ban user
     async function banUser(userId) {
       const userDoc = doc(firestore, "users", userId);
       await updateDoc(userDoc, { banned: true });
@@ -103,7 +97,6 @@
       loadUsers();
     }
 
-    // Unban user
     async function unbanUser(userId) {
       const userDoc = doc(firestore, "users", userId);
       await updateDoc(userDoc, { banned: false });
@@ -111,7 +104,6 @@
       loadUsers();
     }
 
-    // Reset password
     async function sendResetLink(email) {
       try {
         await sendPasswordResetEmail(auth, email);
@@ -121,7 +113,6 @@
       }
     }
 
-    // Expose functions to the global scope (required for inline onclick handlers)
     window.banUser = banUser;
     window.unbanUser = unbanUser;
     window.sendResetLink = sendResetLink;
