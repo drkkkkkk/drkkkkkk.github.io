@@ -1,56 +1,44 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-        authDomain: "drks-debadges.firebaseapp.com",
-        projectId: "99406338166",
-        storageBucket: "drks-debadges.appspot.com",
-        messagingSenderId: "99406338166",
-        appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-      };
+// Import Firebase and Firestore using compat version
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+// Your Firebase config object
+const firebaseConfig = {
+    apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
+    authDomain: "drks-debadges.firebaseapp.com",
+    projectId: "99406338166",
+    storageBucket: "drks-debadges.appspot.com",
+    messagingSenderId: "99406338166",
+    appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
+  };
 
-    // Get Firestore and Firebase Auth references
-    const db = firebase.firestore();
-    const auth = firebase.auth();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-    // Get the HTML elements
-    const loadUsersBtn = document.getElementById("loadUsersBtn");
-    const userList = document.getElementById("userList");
+// Initialize Firestore
+const db = firebase.firestore();
 
-    // Event listener for "Load Users" button
-    loadUsersBtn.addEventListener("click", loadUsers);
+// Wait until the DOM is fully loaded before attaching the event listener
+document.addEventListener('DOMContentLoaded', function () {
+    const addButton = document.getElementById('addUser');
 
-    // Function to load users from Firestore
-    function loadUsers() {
-        // Clear any existing user data
-        userList.innerHTML = "";
+    if (addButton) {
+        addButton.addEventListener('click', function () {
+            // Get user input
+            const userName = document.getElementById('userName').value;
+            const userEmail = document.getElementById('userEmail').value;
 
-        // Fetch users from Firestore collection "users"
-        db.collection("users").get()
-            .then((snapshot) => {
-                snapshot.forEach((doc) => {
-                    const user = doc.data();
-                    displayUser(user);
-                });
+            // Add user to Firestore
+            db.collection("users").add({
+                name: userName,
+                email: userEmail
             })
-            .catch((error) => {
-                console.error("Error getting users:", error);
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
             });
-    }
-
-    // Function to display each user in the list
-    function displayUser(user) {
-        const userDiv = document.createElement("div");
-        userDiv.classList.add("user");
-
-        userDiv.innerHTML = `
-            <p><strong>Name:</strong> ${user.name}</p>
-            <p><strong>Email:</strong> ${user.email}</p>
-        `;
-
-        userList.appendChild(userDiv);
+        });
     }
 });

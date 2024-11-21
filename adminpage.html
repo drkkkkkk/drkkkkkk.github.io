@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="admin-panel">
-        <h1>Admin Panel</h1>
-        <button id="loadUsersBtn">Load Users</button>
-        <div id="userList"></div>
+
+    <h1>Admin Panel</h1>
+
+    <div>
+        <input type="text" id="userName" placeholder="Enter Name">
+        <input type="email" id="userEmail" placeholder="Enter Email">
+        <button id="addUser">Add User</button>
     </div>
 
-    <!-- Move the script tag here, at the end of the body -->
+    <!-- Include Firebase libraries -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+
+    <!-- Your JavaScript File -->
     <script src="app.js"></script>
+
 </body>
 </html>
