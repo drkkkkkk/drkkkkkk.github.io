@@ -54,6 +54,6 @@ googleLoginBtn.addEventListener("click", () => {
       window.location.href = "profile.html"; // Redirect to profile page
     })
     .catch((error) => {
-      alert(`Google Login Error: ${error.message}`);
+
     });
 });
