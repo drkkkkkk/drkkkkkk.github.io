@@ -4,55 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-
-  <!-- Profile Container -->
-  <div id="profile-container">
-    <header>
-      <!-- Profile Top Bar with Dropdown -->
-      <div id="profile-topbar">
-        <div id="profile-pic-container">
-          <img id="profile-pic" src="https://banner2.cleanpng.com/20171218/621/av2bwpcv3.webp" alt="Profile Picture">
-        </div>
-        <div id="profile-info">
-          <span id="profile-name"></span>
-          <span id="profile-email"></span>
-        </div>
-        <div id="dropdown-btn-container">
-          <button id="dropdown-btn">▼</button>
-          <div id="dropdown-menu" class="dropdown-content">
-            <button id="change-name-btn">Change Name</button>
-            <button id="change-email-btn">Change Email</button>
-            <button id="logout-btn">Logout</button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div id="change-name-modal" class="modal">
-      <div class="modal-content">
-        <h3>Change Name</h3>
-        <input type="text" id="new-name-input" placeholder="Enter new name">
-        <button id="save-name-btn">Save</button>
-        <button id="close-modal-btn">Close</button>
-      </div>
-    </div>
-
-    <div id="change-email-modal" class="modal">
-      <div class="modal-content">
-        <h3>Change Email</h3>
-        <input type="email" id="new-email-input" placeholder="Enter new email">
-        <button id="save-email-btn">Save</button>
-        <button id="close-email-modal-btn">Close</button>
-      </div>
+  <div class="top-bar">
+    <img id="profile-pic" alt="Profile Picture" class="profile-pic">
+    <span id="profile-name"></span>
+    <button id="dropdown-btn">▼</button>
+    <div id="dropdown-menu" class="dropdown-menu">
+      <button id="logout-btn">Logout</button>
+      <button id="change-name-btn">Change Name</button>
+      <button id="change-email-btn">Change Email</button>
     </div>
   </div>
 
+  <div id="change-name-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-modal-btn" class="close-btn">&times;</span>
+      <h3>Change Name</h3>
+      <input id="new-name-input" type="text" placeholder="Enter new name">
+      <button id="save-name-btn">Save</button>
+    </div>
+  </div>
+
+  <div id="change-email-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-email-modal-btn" class="close-btn">&times;</span>
+      <h3>Change Email</h3>
+      <input id="new-email-input" type="email" placeholder="Enter new email">
+      <button id="save-email-btn">Save</button>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="profile.js"></script>
 </body>
 </html>
