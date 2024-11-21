@@ -19,7 +19,7 @@ const successMessage = document.getElementById('forgot-success-message');
 
 // Forgot Password Functionality
 forgotBtn.addEventListener("click", (event) => {
-  event.preventDefault(); // Prevent form submission
+  event.preventDefault();
 
   const email = forgotEmailInput.value;
 
@@ -28,6 +28,7 @@ forgotBtn.addEventListener("click", (event) => {
     errorMessage.style.display = "block";
     return;
   }
+
 
   // Send reset password email
   firebase.auth().sendPasswordResetEmail(email)
