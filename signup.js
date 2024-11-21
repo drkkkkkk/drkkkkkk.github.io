@@ -1,4 +1,3 @@
-// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
   authDomain: "drks-debadges.firebaseapp.com",
@@ -8,19 +7,16 @@ const firebaseConfig = {
   appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// DOM Elements
 const signupBtn = document.getElementById("signup-btn");
-const signupEmailInput = document.getElementById("signup-email-input");
-const signupPasswordInput = document.getElementById("signup-password-input");
+const signupEmailInput = document.getElementById("signup-email");
+const signupPasswordInput = document.getElementById("signup-password");
 const errorMessage = document.getElementById('error-message');
 const successMessage = document.getElementById('success-message');
 
-// Sign-Up Functionality
 signupBtn.addEventListener("click", (event) => {
-  event.preventDefault(); // Prevent form submission
+  event.preventDefault();
 
   const email = signupEmailInput.value;
   const password = signupPasswordInput.value;
@@ -31,18 +27,16 @@ signupBtn.addEventListener("click", (event) => {
     return;
   }
 
-  // Register the user with email and password
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
-      // Send email verification
       user.sendEmailVerification()
         .then(() => {
           successMessage.textContent = 'Please check your email for the verification link.';
           successMessage.style.display = 'block';
           setTimeout(() => {
-            window.location.href = 'index.html';  // Redirect to login
+            window.location.href = 'index.html';
           }, 3000);
         })
         .catch((error) => {
