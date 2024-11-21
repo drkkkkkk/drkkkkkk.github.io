@@ -1,4 +1,3 @@
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
   authDomain: "drks-debadges.firebaseapp.com",
@@ -36,7 +35,6 @@ loginForm.addEventListener("submit", (e) => {
     });
 });
 
-// Google login
 googleLoginBtn.addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
