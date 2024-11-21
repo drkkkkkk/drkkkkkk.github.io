@@ -1,13 +1,5 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-  authDomain: "drks-debadges.firebaseapp.com",
-  projectId: "99406338166",
-  storageBucket: "drks-debadges.appspot.com",
-  messagingSenderId: "99406338166",
-  appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-};
-
-firebase.initializeApp(firebaseConfig);
+// signup.js
+import supabase from './supabase';
 
 const signupBtn = document.getElementById("signup-btn");
 const signupEmailInput = document.getElementById("signup-email");
@@ -15,7 +7,7 @@ const signupPasswordInput = document.getElementById("signup-password");
 const errorMessage = document.getElementById('error-message');
 const successMessage = document.getElementById('success-message');
 
-signupBtn.addEventListener("click", (event) => {
+signupBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
   const email = signupEmailInput.value;
@@ -27,26 +19,26 @@ signupBtn.addEventListener("click", (event) => {
     return;
   }
 
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-
-      user.sendEmailVerification()
-        .then(() => {
-          successMessage.textContent = 'Please check your email for the verification link.';
-          successMessage.style.display = 'block';
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 3000);
-        })
-        .catch((error) => {
-          errorMessage.textContent = error.message;
-          errorMessage.style.display = 'block';
-        });
-
-    })
-    .catch((error) => {
-      errorMessage.textContent = error.message;
-      errorMessage.style.display = 'block';
+  try {
+    // Create user with email and password
+    const { user, error } = await supabase.auth.signUp({
+      email,
+      password,
     });
+
+    if (error) {
+      errorMessage.textContent = error.message;
+      errorMessage.style.display = "block";
+      return;
+    }
+
+    successMessage.textContent = 'Please check your email for the verification link.';
+    successMessage.style.display = 'block';
+    setTimeout(() => {
+      window.location.href = 'index.html';  // Redirect to login page
+    }, 3000);
+  } catch (error) {
+    errorMessage.textContent = error.message;
+    errorMessage.style.display = "block";
+  }
 });

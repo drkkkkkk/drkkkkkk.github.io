@@ -1,17 +1,6 @@
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-  authDomain: "drks-debadges.firebaseapp.com",
-  projectId: "99406338166",
-  storageBucket: "drks-debadges.appspot.com",
-  messagingSenderId: "99406338166",
-  appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-};
+// profile.js
+import supabase from './supabase';
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// DOM Elements
 const profilePic = document.getElementById("profile-pic");
 const profileName = document.getElementById("profile-name");
 const dropdownMenu = document.getElementById("dropdown-menu");
@@ -26,47 +15,50 @@ const closeEmailModalBtn = document.getElementById("close-email-modal-btn");
 const saveEmailBtn = document.getElementById("save-email-btn");
 const newEmailInput = document.getElementById("new-email-input");
 
-// Populate user data
-firebase.auth().onAuthStateChanged((user) => {
+supabase.auth.onAuthStateChange((event, session) => {
+  const user = session?.user;
+
   if (user) {
-    profilePic.src = user.photoURL || "default-pic.png";
-    profileName.textContent = user.displayName || "Anonymous User";
+    profilePic.src = user.user_metadata.avatar_url || "default-pic.png";
+    profileName.textContent = user.user_metadata.full_name || "Anonymous User";
 
     // Update name
-    saveNameBtn.addEventListener("click", () => {
+    saveNameBtn.addEventListener("click", async () => {
       const newName = newNameInput.value.trim();
-      user.updateProfile({ displayName: newName }).then(() => {
-        profileName.textContent = newName;
-        changeNameModal.style.display = "none";
+      const { data, error } = await supabase.auth.update({
+        data: { full_name: newName }
       });
-    });
 
-    // Update email
-    saveEmailBtn.addEventListener("click", () => {
-      const newEmail = newEmailInput.value.trim();
-      user.updateEmail(newEmail).then(() => {
-        alert("Email updated successfully!");
-        changeEmailModal.style.display = "none";
-      });
-    });
+      if (error) {
+        alert(`Error updating name: ${error.message}`);
+        return;
+      }
 
-    // Logout
-    logoutBtn.addEventListener("click", () => {
-      firebase.auth().signOut().then(() => {
-        window.location.href = "index.html";
-      });
-    });
-
-    // Modal close
-    closeModalBtn.addEventListener("click", () => {
+      profileName.textContent = newName;
       changeNameModal.style.display = "none";
     });
 
-    closeEmailModalBtn.addEventListener("click", () => {
+    // Update email
+    saveEmailBtn.addEventListener("click", async () => {
+      const newEmail = newEmailInput.value.trim();
+      const { error } = await supabase.auth.update({ email: newEmail });
+
+      if (error) {
+        alert(`Error updating email: ${error.message}`);
+        return;
+      }
+
+      alert("Email updated successfully!");
       changeEmailModal.style.display = "none";
     });
+
+    // Logout
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "index.html";
+    });
   } else {
-    window.location.href = "index.html"; // Redirect if not logged in
+    window.location.href = "index.html"; // Redirect to login page if not authenticated
   }
 });
 

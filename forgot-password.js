@@ -1,25 +1,13 @@
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
-  authDomain: "drks-debadges.firebaseapp.com",
-  projectId: "99406338166",
-  storageBucket: "drks-debadges.appspot.com",
-  messagingSenderId: "99406338166",
-  appId: "1:99406338166:web:9cb98d74ed0c7856e5a757"
-};
+// forgotpassword.js
+import supabase from './supabase';
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// DOM Elements
 const forgotBtn = document.getElementById("forgot-btn");
 const forgotEmailInput = document.getElementById("forgot-email-input");
 const errorMessage = document.getElementById('forgot-error-message');
 const successMessage = document.getElementById('forgot-success-message');
 
-// Forgot Password Functionality
-forgotBtn.addEventListener("click", (event) => {
-  event.preventDefault(); // Prevent form submission
+forgotBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
 
   const email = forgotEmailInput.value;
 
@@ -29,14 +17,20 @@ forgotBtn.addEventListener("click", (event) => {
     return;
   }
 
-  // Send reset password email
-  firebase.auth().sendPasswordResetEmail(email)
-    .then(() => {
-      successMessage.textContent = 'Check your email for the password reset link.';
-      successMessage.style.display = 'block';
-    })
-    .catch((error) => {
+  try {
+    const { error } = await supabase.auth.api
+      .resetPasswordForEmail(email);
+
+    if (error) {
       errorMessage.textContent = error.message;
-      errorMessage.style.display = 'block';
-    });
+      errorMessage.style.display = "block";
+      return;
+    }
+
+    successMessage.textContent = 'Check your email for the password reset link.';
+    successMessage.style.display = 'block';
+  } catch (error) {
+    errorMessage.textContent = error.message;
+    errorMessage.style.display = 'block';
+  }
 });
