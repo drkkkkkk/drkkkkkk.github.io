@@ -19,76 +19,68 @@ body {
   margin: 0;
 }
 
-/* Admin Panel Styles */
-.admin-panel {
+/* Centering Form Containers */
+.auth-container {
   width: 100%;
-  max-width: 1000px;
-  margin: auto;
-  padding: 30px;
+  max-width: 400px;
   background-color: #181818;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.admin-header {
   text-align: center;
-  margin-bottom: 30px;
 }
 
-.admin-header h1 {
-  color: #4285F4;
-  font-size: 2em;
-}
-
-.user-list table {
+input, button {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.user-list table, th, td {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
   border: 1px solid #444;
-}
-
-th, td {
-  padding: 12px;
-  text-align: center;
-}
-
-th {
   background-color: #333;
   color: white;
-}
-
-td {
-  background-color: #222;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font to inputs and buttons */
+  transition: all 0.3s ease;
 }
 
 button {
-  background-color: #4285F4;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-  margin: 5px;
+  background-color: #4285F4;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
   background-color: #357AE8;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
 }
 
-button:active {
-  background-color: #2C6BB1;
+.google-btn {
+  background-color: #db4437;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
+.google-icon {
+  width: 20px;
+  margin-right: 10px;
 }
 
-button:disabled:hover {
-  background-color: #555;
+.or-divider {
+  margin: 15px 0;
+}
+
+.or-divider span {
+  color: #777;
+}
+
+a {
+  color: #4285F4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /* Profile Page */
