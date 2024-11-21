@@ -1,9 +1,4 @@
-// Import necessary Firebase modules from Firebase SDK v9
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js";
-import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore.js";
-
-// Firebase configuration
+// Initialize Firebase (v8.x)
 const firebaseConfig = {
     apiKey: "AIzaSyAV3IOUukiU3a_7coFFKX7DNHHJ8uMswCo",
     authDomain: "drks-debadges.firebaseapp.com",
@@ -14,9 +9,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const firestore = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+
+// Get references to Firebase services
+const auth = firebase.auth();
+const firestore = firebase.firestore();
 
 // Encrypted Login Details
 const loginDetails = {
@@ -42,12 +39,11 @@ document.getElementById("loginForm").addEventListener("submit", (event) => {
 });
 
 // Load Users from Firestore
-async function loadUsers() {
+function loadUsers() {
   const userTableBody = document.querySelector("#userTable tbody");
   userTableBody.innerHTML = ""; // Clear existing rows
 
-  try {
-    const querySnapshot = await getDocs(collection(firestore, "users"));
+  firestore.collection("users").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const user = doc.data();
       const row = document.createElement("tr");
@@ -62,47 +58,42 @@ async function loadUsers() {
         </td>`;
       userTableBody.appendChild(row);
     });
-  } catch (error) {
+  }).catch((error) => {
     console.error("Error loading users:", error);
     alert("Failed to load users. Check your network and Firestore configuration.");
-  }
+  });
 }
 
 // Ban User
-async function banUser(userId) {
-  try {
-    const userRef = doc(firestore, "users", userId);
-    await updateDoc(userRef, {
-      banned: true
-    });
+function banUser(userId) {
+  firestore.collection("users").doc(userId).update({
+    banned: true
+  }).then(() => {
     alert("User has been banned.");
-    loadUsers();
-  } catch (error) {
+    loadUsers(); // Reload users
+  }).catch((error) => {
     console.error("Error banning user:", error);
-  }
+  });
 }
 
 // Unban User
-async function unbanUser(userId) {
-  try {
-    const userRef = doc(firestore, "users", userId);
-    await updateDoc(userRef, {
-      banned: false
-    });
+function unbanUser(userId) {
+  firestore.collection("users").doc(userId).update({
+    banned: false
+  }).then(() => {
     alert("User has been unbanned.");
-    loadUsers();
-  } catch (error) {
+    loadUsers(); // Reload users
+  }).catch((error) => {
     console.error("Error unbanning user:", error);
-  }
+  });
 }
 
 // Send Reset Password Link
-async function sendResetLink(email) {
-  try {
-    await sendPasswordResetEmail(auth, email);
+function sendResetLink(email) {
+  auth.sendPasswordResetEmail(email).then(() => {
     alert("Password reset link sent.");
-  } catch (error) {
+  }).catch((error) => {
     console.error("Error sending reset password link:", error);
     alert("Failed to send reset link. Check the email and try again.");
-  }
+  });
 }

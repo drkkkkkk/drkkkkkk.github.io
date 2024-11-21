@@ -6,7 +6,7 @@
   <title>Admin Panel</title>
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Firebase SDK (corrected URLs) -->
+  <!-- Firebase SDK (modular, version 9.x) -->
   <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore.js"></script>
@@ -17,6 +17,7 @@
 </head>
 <body>
 
+  <!-- Admin login form -->
   <div id="login-form">
     <h2>Admin Login</h2>
     <form id="loginForm">
@@ -26,6 +27,7 @@
     </form>
   </div>
 
+  <!-- Admin Panel -->
   <div id="admin-panel" style="display:none;">
     <h1>Admin Panel</h1>
     <div class="user-list">
